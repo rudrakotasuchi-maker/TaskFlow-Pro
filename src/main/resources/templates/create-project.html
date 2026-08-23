@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Project</title>
+</head>
+<body>
+
+<h2>Create New Project</h2>
+
+<form th:action="@{/projects/save}" th:object="${project}" method="post">
+
+    <label>Project Name</label><br>
+    <input type="text" th:field="*{name}" required><br><br>
+
+    <label>Description</label><br>
+    <textarea th:field="*{description}" rows="4"></textarea><br><br>
+
+    <button type="submit">Save Project</button>
+
+</form>
+
+<br>
+
+<a th:href="@{/projects}">Back to Projects</a>
+
+</body>
+</html>

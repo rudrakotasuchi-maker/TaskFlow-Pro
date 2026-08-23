@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>TaskFlow Studio</title>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #1e1e1e;
+            color: white;
+            overflow: hidden;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        /* ==========================================
+           TOP BAR
+        ========================================== */
+
+        .topbar {
+
+            height: 60px;
+
+            background: #252526;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 20px;
+
+            border-bottom: 1px solid #3c3c3c;
+
+        }
+
+        .studio-title {
+
+            font-size: 22px;
+
+            font-weight: 700;
+
+        }
+
+        .project-title {
+
+            font-size: 16px;
+
+            color: #cccccc;
+
+        }
+
+
+        /* ==========================================
+           MAIN LAYOUT
+        ========================================== */
+
+        .main-layout {
+
+            height: calc(100vh - 60px);
+
+            display: flex;
+
+        }
+
+
+        /* ==========================================
+           LEFT EXPLORER
+        ========================================== */
+
+        .sidebar {
+
+            width: 220px;
+
+            flex-shrink: 0;
+
+            background: #2d2d30;
+
+            padding: 18px;
+
+            border-right: 1px solid #3c3c3c;
+
+            overflow-y: auto;
+
+        }
+
+        .sidebar-title {
+
+            font-size: 17px;
+
+            font-weight: 600;
+
+            margin-bottom: 12px;
+
+        }
+
+        .file-item {
+
+            padding: 8px 10px;
+
+            cursor: pointer;
+
+            border-radius: 5px;
+
+            margin-bottom: 3px;
+
+            color: #dddddd;
+
+        }
+
+        .file-item:hover {
+
+            background: #3e3e42;
+
+        }
+
+
+        /* ==========================================
+           CENTER DEVELOPMENT AREA
+        ========================================== */
+
+        .development-area {
+
+            flex: 1;
+
+            min-width: 0;
+
+            display: flex;
+
+            flex-direction: column;
+
+        }
+
+        #editor {
+
+            height: 65vh;
+
+            width: 100%;
+
+        }
+
+        #consolePanel {
+
+            height: 22vh;
+
+            background: #111;
+
+            color: #00ff66;
+
+            border-top: 2px solid #333;
+
+            padding: 12px;
+
+            overflow: auto;
+
+            font-family: Consolas, monospace;
+
+            white-space: pre-wrap;
+
+        }
+
+        .console-input {
+
+            height: 42px;
+
+            display: flex;
+
+            border-top: 1px solid #333;
+
+        }
+
+
+        /* ==========================================
+           AI PANEL
+        ========================================== */
+
+        .ai-panel {
+
+            width: 320px;
+
+            flex-shrink: 0;
+
+            background: #252526;
+
+            border-left: 1px solid #3c3c3c;
+
+            display: flex;
+
+            flex-direction: column;
+
+        }
+
+        .ai-header {
+
+            height: 58px;
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 0 16px;
+
+            border-bottom: 1px solid #3c3c3c;
+
+            background: #2d2d30;
+
+        }
+
+        .ai-icon {
+
+            font-size: 24px;
+
+            margin-right: 10px;
+
+        }
+
+        .ai-title {
+
+            font-weight: 700;
+
+            font-size: 16px;
+
+        }
+
+        .ai-subtitle {
+
+            font-size: 11px;
+
+            color: #999;
+
+        }
+
+
+        /* AI messages */
+
+        .ai-messages {
+
+            flex: 1;
+
+            overflow-y: auto;
+
+            padding: 15px;
+
+        }
+
+        .ai-message {
+
+            background: #333337;
+
+            border-radius: 10px;
+
+            padding: 11px 13px;
+
+            margin-bottom: 12px;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+        }
+
+        .ai-message.user {
+
+            background: #0d6efd;
+
+            margin-left: 25px;
+
+        }
+
+
+        /* AI quick actions */
+
+        .ai-actions {
+
+            padding: 10px 12px;
+
+            border-top: 1px solid #3c3c3c;
+
+            border-bottom: 1px solid #3c3c3c;
+
+        }
+
+        .ai-action-btn {
+
+            width: 100%;
+
+            margin-bottom: 7px;
+
+            text-align: left;
+
+            background: #333337;
+
+            color: #ddd;
+
+            border: 1px solid #444;
+
+            border-radius: 7px;
+
+            padding: 8px 10px;
+
+            font-size: 13px;
+
+        }
+
+        .ai-action-btn:hover {
+
+            background: #414145;
+
+            color: white;
+
+        }
+
+
+        /* AI input */
+
+        .ai-input-area {
+
+            padding: 12px;
+
+            background: #2d2d30;
+
+        }
+
+        .ai-input {
+
+            background: #1e1e1e;
+
+            color: white;
+
+            border: 1px solid #555;
+
+            border-radius: 8px;
+
+            resize: none;
+
+        }
+
+        .ai-input:focus {
+
+            background: #1e1e1e;
+
+            color: white;
+
+            border-color: #0d6efd;
+
+            box-shadow: none;
+
+        }
+
+        .ai-send-btn {
+
+            margin-top: 8px;
+
+            width: 100%;
+
+            border-radius: 8px;
+
+        }
+
+
+        /* ==========================================
+           RESPONSIVE
+        ========================================== */
+
+        @media (max-width: 1100px) {
+
+            .ai-panel {
+
+                width: 280px;
+
+            }
+
+            .sidebar {
+
+                width: 190px;
+
+            }
+
+        }
+
+        @media (max-width: 850px) {
+
+            .ai-panel {
+
+                display: none;
+
+            }
+
+        }
+        /* ==========================================
+   AI RESPONSE FORMATTING
+========================================== */
+
+        .ai-response {
+            line-height: 1.6;
+        }
+
+        .ai-heading {
+            color: #ffffff;
+            margin-top: 12px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .ai-list-item {
+            margin: 5px 0;
+            padding-left: 5px;
+        }
+
+        .ai-inline-code {
+            background: #1e1e1e;
+            color: #61dafb;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: Consolas, monospace;
+        }
+
+        .ai-code-block {
+            margin: 12px 0;
+            background: #1e1e1e;
+            border: 1px solid #444;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .ai-code-header {
+            height: 35px;
+            background: #2d2d30;
+            border-bottom: 1px solid #444;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 10px;
+
+            color: #aaa;
+            font-size: 12px;
+        }
+
+        .ai-code-header span {
+            text-transform: uppercase;
+        }
+
+        .ai-copy-btn {
+            background: #444;
+            color: #ddd;
+
+            border: none;
+            border-radius: 5px;
+
+            padding: 4px 9px;
+
+            font-size: 11px;
+
+            cursor: pointer;
+        }
+
+        .ai-copy-btn:hover {
+            background: #0d6efd;
+            color: white;
+        }
+
+        .ai-code-block pre {
+            margin: 0;
+            padding: 12px;
+
+            overflow-x: auto;
+
+            color: #e6e6e6;
+
+            font-family: Consolas, "Courier New", monospace;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+
+            white-space: pre-wrap;
+        }
+
+        .ai-code-block code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==========================================
+     TOP BAR
+========================================== -->
+
+<div class="topbar">
+
+    <div class="studio-title">
+
+        🚀 TaskFlow Studio
+
+    </div>
+
+
+    <div class="project-title">
+
+        Demo Project
+
+    </div>
+
+
+    <div>
+
+        <button id="saveBtn"
+                class="btn btn-success btn-sm me-2">
+
+            💾 Save
+
+        </button>
+
+
+        <button id="runBtn"
+                class="btn btn-primary btn-sm">
+
+            ▶ Run
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     MAIN LAYOUT
+========================================== -->
+
+<div class="main-layout">
+
+
+    <!-- ======================================
+         LEFT EXPLORER
+    ======================================= -->
+
+    <div class="sidebar">
+
+        <div class="sidebar-title">
+
+            📁 Explorer
+
+        </div>
+
+
+        <hr>
+
+
+        <div class="mb-3">
+
+            <a href="/"
+               class="btn btn-outline-light w-100 mb-2">
+
+                🏠 Dashboard
+
+            </a>
+
+
+            <a href="/projects"
+               class="btn btn-outline-light w-100 mb-2">
+
+                📁 Projects
+
+            </a>
+
+
+            <a href="/tasks"
+               class="btn btn-outline-light w-100 mb-3">
+
+                ✅ Tasks
+
+            </a>
+
+        </div>
+
+
+        <hr>
+
+
+        <div id="fileExplorer">
+
+            <!-- studio.js dynamically loads files here -->
+
+        </div>
+
+    </div>
+
+
+    <!-- ======================================
+         CENTER DEVELOPMENT AREA
+    ======================================= -->
+
+    <div class="development-area">
+
+
+        <!-- MONACO EDITOR -->
+
+        <div id="editor"></div>
+
+
+        <!-- CONSOLE -->
+
+        <div id="consolePanel">
+
+            Console Ready...
+
+        </div>
+
+
+        <!-- PROGRAM INPUT -->
+
+        <div class="console-input">
+
+            <input
+                    id="consoleInput"
+                    class="form-control rounded-0"
+                    placeholder="Program Input...">
+
+
+            <button
+                    id="sendInputBtn"
+                    class="btn btn-primary rounded-0">
+
+                Send
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ======================================
+         AI ASSISTANT
+    ======================================= -->
+
+    <div class="ai-panel">
+
+
+        <!-- AI HEADER -->
+
+        <div class="ai-header">
+
+            <div class="ai-icon">
+
+                🤖
+
+            </div>
+
+
+            <div>
+
+                <div class="ai-title">
+
+                    TaskFlow AI
+
+                </div>
+
+
+                <div class="ai-subtitle">
+
+                    Development Assistant
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- AI CHAT -->
+
+        <div id="aiMessages"
+             class="ai-messages">
+
+
+            <div class="ai-message">
+
+                👋 <strong>Hello!</strong>
+
+                <br><br>
+
+                I'm TaskFlow AI.
+
+                I can help you understand code,
+                debug errors, generate programs,
+                and improve your project.
+
+                <br><br>
+
+                Ask me anything about your code.
+
+            </div>
+
+
+        </div>
+
+
+        <!-- QUICK ACTIONS -->
+
+        <div class="ai-actions">
+
+            <button
+                    class="ai-action-btn"
+                    id="explainCodeBtn">
+
+                🔍 Explain Current Code
+
+            </button>
+
+
+            <button
+                    class="ai-action-btn"
+                    id="generateCodeBtn">
+
+                ✨ Generate Code
+
+            </button>
+
+
+            <button
+                    class="ai-action-btn"
+                    id="debugCodeBtn">
+
+                🐛 Debug Current Code
+
+            </button>
+
+
+            <button
+                    class="ai-action-btn"
+                    id="documentationBtn">
+
+                📝 Generate Documentation
+
+            </button>
+
+        </div>
+
+
+        <!-- AI INPUT -->
+
+        <div class="ai-input-area">
+
+            <textarea
+                    id="aiInput"
+                    class="form-control ai-input"
+                    rows="3"
+                    placeholder="Ask TaskFlow AI..."></textarea>
+
+
+            <button
+                    id="aiSendBtn"
+                    class="btn btn-primary ai-send-btn">
+
+                🤖 Ask TaskFlow AI
+
+            </button>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- PROJECT ID -->
+
+<script th:inline="javascript">
+
+    const projectId = /*[[${projectId}]]*/ null;
+
+</script>
+
+<!-- MONACO -->
+
+<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs/loader.js"></script>
+
+
+<!-- EXISTING STUDIO JAVASCRIPT -->
+
+<script src="/js/studio.js"></script>
+
+
+<!-- AI UI ONLY -->
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const aiSendBtn = document.getElementById("aiSendBtn");
+        const aiInput = document.getElementById("aiInput");
+        const aiMessages = document.getElementById("aiMessages");
+
+        console.log("TaskFlow AI JavaScript loaded");
+        console.log("AI button:", aiSendBtn);
+
+
+        // ==========================================
+        // MARKDOWN FORMATTER
+        // ==========================================
+
+        function formatAIResponse(text) {
+
+            if (!text) {
+                return "";
+            }
+
+            // Escape HTML first for safety
+            text = text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+
+
+            // Code blocks
+            text = text.replace(
+                /```(\w+)?\n([\s\S]*?)```/g,
+                function (match, language, code) {
+
+                    const lang = language || "code";
+
+                    return `
+                    <div class="ai-code-block">
+
+                        <div class="ai-code-header">
+                            <span>${lang}</span>
+
+                            <button
+                                class="ai-copy-btn"
+                                type="button">
+                                Copy
+                            </button>
+                        </div>
+
+                        <pre><code>${code.trim()}</code></pre>
+
+                    </div>
+                `;
+
+                }
+            );
+
+
+            // Inline code
+            text = text.replace(
+                /`([^`]+)`/g,
+                "<code class=\"ai-inline-code\">$1</code>"
+            );
+
+
+            // Bold
+            text = text.replace(
+                /\*\*(.*?)\*\*/g,
+                "<strong>$1</strong>"
+            );
+
+
+            // Headings
+            text = text.replace(
+                /^### (.*)$/gm,
+                "<h4 class=\"ai-heading\">$1</h4>"
+            );
+
+            text = text.replace(
+                /^## (.*)$/gm,
+                "<h3 class=\"ai-heading\">$1</h3>"
+            );
+
+            text = text.replace(
+                /^# (.*)$/gm,
+                "<h2 class=\"ai-heading\">$1</h2>"
+            );
+
+
+            // Numbered lists
+            text = text.replace(
+                /^\d+\.\s+(.*)$/gm,
+                "<div class=\"ai-list-item\">• $1</div>"
+            );
+
+
+            // Bullet lists
+            text = text.replace(
+                /^[-*]\s+(.*)$/gm,
+                "<div class=\"ai-list-item\">• $1</div>"
+            );
+
+
+            // New lines
+            text = text.replace(/\n/g, "<br>");
+
+
+            return text;
+
+        }
+
+
+        // ==========================================
+        // AI SEND BUTTON
+        // ==========================================
+
+        aiSendBtn.addEventListener("click", async function () {
+
+            console.log("AI BUTTON CLICKED");
+
+
+            const message = aiInput.value.trim();
+
+
+            if (!message) {
+
+                alert("Please enter a message.");
+
+                return;
+
+            }
+
+
+            // ==========================================
+            // GET CURRENT MONACO CODE
+            // ==========================================
+
+            let code = "";
+
+            if (
+                window.monacoEditor &&
+                typeof window.monacoEditor.getValue === "function"
+            ) {
+
+                code = window.monacoEditor.getValue();
+
+            }
+
+
+            // ==========================================
+            // SHOW USER MESSAGE
+            // ==========================================
+
+            const userMessage = document.createElement("div");
+
+            userMessage.className = "ai-message user";
+
+            userMessage.textContent = message;
+
+            aiMessages.appendChild(userMessage);
+
+
+            // ==========================================
+            // LOADING MESSAGE
+            // ==========================================
+
+            const loadingMessage = document.createElement("div");
+
+            loadingMessage.className = "ai-message";
+
+            loadingMessage.id = "aiLoading";
+
+            loadingMessage.innerHTML =
+                "🤖 TaskFlow AI is thinking...";
+
+            aiMessages.appendChild(loadingMessage);
+
+
+            aiMessages.scrollTop =
+                aiMessages.scrollHeight;
+
+
+            try {
+
+                console.log(
+                    "Sending request to /api/ai/ask"
+                );
+
+
+                // ==========================================
+                // SEND TO BACKEND
+                // ==========================================
+
+                const response = await fetch(
+                    "/api/ai/ask",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body: JSON.stringify({
+
+                            message: message,
+
+                            code: code
+
+                        })
+
+                    }
+                );
+
+
+                console.log(
+                    "Response status:",
+                    response.status
+                );
+
+
+                const answer =
+                    await response.text();
+
+
+                console.log(
+                    "AI response:",
+                    answer
+                );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        answer ||
+                        "AI request failed: " +
+                        response.status
+                    );
+
+                }
+
+
+                // ==========================================
+                // FORMAT AI RESPONSE
+                // ==========================================
+
+                loadingMessage.innerHTML = `
+
+                <div class="ai-response">
+
+                    🤖
+
+                    ${formatAIResponse(answer)}
+
+                </div>
+
+            `;
+
+
+                // ==========================================
+                // COPY BUTTONS
+                // ==========================================
+
+                loadingMessage
+                    .querySelectorAll(".ai-copy-btn")
+                    .forEach(button => {
+
+                        button.addEventListener(
+                            "click",
+                            function () {
+
+                                const codeBlock =
+                                    button
+                                        .closest(
+                                            ".ai-code-block"
+                                        )
+                                        .querySelector("code");
+
+                                navigator.clipboard
+                                    .writeText(
+                                        codeBlock.innerText
+                                    );
+
+                                button.innerText =
+                                    "Copied!";
+
+                                setTimeout(
+                                    function () {
+
+                                        button.innerText =
+                                            "Copy";
+
+                                    },
+                                    1500
+                                );
+
+                            }
+                        );
+
+                    });
+
+
+            }
+            catch (error) {
+
+                console.error(
+                    "AI ERROR:",
+                    error
+                );
+
+
+                loadingMessage.innerHTML = `
+
+                ❌ <strong>AI connection failed.</strong>
+
+                <br><br>
+
+                ${error.message}
+
+            `;
+
+            }
+
+
+            aiInput.value = "";
+
+
+            aiMessages.scrollTop =
+                aiMessages.scrollHeight;
+
+        });
+
+
+        // ==========================================
+        // EXPLAIN CODE
+        // ==========================================
+
+        document.getElementById(
+            "explainCodeBtn"
+        ).addEventListener(
+            "click",
+            function () {
+
+                aiInput.value =
+                    "Explain the current code in simple terms, line by line.";
+
+                aiInput.focus();
+
+            }
+        );
+
+
+        // ==========================================
+        // GENERATE CODE
+        // ==========================================
+
+        document.getElementById(
+            "generateCodeBtn"
+        ).addEventListener(
+            "click",
+            function () {
+
+                aiInput.value =
+                    "Generate code for this requirement: ";
+
+                aiInput.focus();
+
+            }
+        );
+
+
+        // ==========================================
+        // DEBUG CODE
+        // ==========================================
+
+        document.getElementById(
+            "debugCodeBtn"
+        ).addEventListener(
+            "click",
+            function () {
+
+                aiInput.value =
+                    "Find errors in my current code, explain each error, and provide corrected code.";
+
+                aiInput.focus();
+
+            }
+        );
+
+
+        // ==========================================
+        // DOCUMENTATION
+        // ==========================================
+
+        document.getElementById(
+            "documentationBtn"
+        ).addEventListener(
+            "click",
+            function () {
+
+                aiInput.value =
+                    "Generate clear documentation for the current code.";
+
+                aiInput.focus();
+
+            }
+        );
+
+
+    });
+
+</script>
+
+
+
+</body>
+
+</html>
