@@ -33,8 +33,14 @@ public class UserServiceImpl implements UserService {
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(request.getRole());
+        user.setRegisterNumber(request.getRegisterNumber());
+        user.setBranch(request.getBranch());
+        user.setDepartment(request.getDepartment());
+        user.setYear(request.getYear());
+        user.setSection(request.getSection());
 
         userRepository.save(user);
+
     }
 
     @Override

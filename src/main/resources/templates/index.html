@@ -5,7 +5,7 @@
 
 <head>
 
-    ```
+
     <meta charset="UTF-8">
 
     <meta name="viewport"
@@ -76,6 +76,80 @@
             font-size: 16px;
         }
 
+        /* ACADEMIC SUMMARY */
+
+        .academic-summary {
+            background: white;
+            border: none;
+            border-radius: 16px;
+            padding: 18px 22px;
+            margin-bottom: 35px;
+            box-shadow: 0 6px 20px rgba(31, 56, 100, 0.08);
+
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+
+
+        }
+
+        .academic-summary-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .academic-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: #e8f1ff;
+            color: #0d6efd;
+
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 22px;
+
+
+        }
+
+        .academic-summary h2 {
+            margin: 0;
+            font-size: 19px;
+            font-weight: 650;
+        }
+
+        .academic-summary p {
+            margin: 4px 0 0;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .academic-profile-btn {
+            border-radius: 9px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 600px) {
+
+            .academic-summary {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+            .academic-profile-btn {
+                width: 100%;
+            }
+
+
+        }
+
         /* STAT CARDS */
 
         .stat-card {
@@ -123,6 +197,11 @@
         .pending-icon {
             background: #fff0f0;
             color: #dc3545;
+        }
+
+        .assignments-icon {
+            background: #fff4e5;
+            color: #fd7e14;
         }
 
         .stat-title {
@@ -201,7 +280,7 @@
         }
 
     </style>
-    ```
+
 
 </head>
 
@@ -215,7 +294,7 @@
 
 <nav class="top-navbar">
 
-    ```
+
     <div class="container d-flex flex-wrap align-items-center">
 
         <a class="navbar-brand fw-bold"
@@ -265,6 +344,23 @@
 
             </a>
 
+            <a href="/assignments"
+               class="btn btn-outline-light nav-btn me-1">
+
+                <i class="bi bi-journal-text"></i>
+
+                Assignments
+
+            </a>
+            <a href="/learning"
+               class="btn btn-outline-light nav-btn me-1">
+
+                <i class="bi bi-mortarboard"></i>
+
+                Learning & Career
+
+            </a>
+
             <a href="/logout"
                class="btn btn-light nav-btn">
 
@@ -277,7 +373,7 @@
         </div>
 
     </div>
-    ```
+
 
 </nav>
 
@@ -289,7 +385,7 @@
 
 <main class="dashboard-container">
 
-    ```
+
     <!-- WELCOME -->
 
     <div class="welcome-section">
@@ -303,6 +399,49 @@
         </p>
 
     </div>
+
+
+    <!-- ============================= -->
+    <!-- ACADEMIC PROFILE -->
+    <!-- ============================= -->
+
+    <!-- ACADEMIC SUMMARY -->
+
+    <div class="academic-summary">
+
+
+        <div class="academic-summary-left">
+
+            <div class="academic-icon">
+                <i class="bi bi-mortarboard-fill"></i>
+            </div>
+
+            <div>
+                <h2>Academic Summary</h2>
+
+                <p>
+                    <span th:text="${currentUser.year}">III B.Tech</span>
+                    •
+                    <span th:text="${currentUser.branch}">AI & DS</span>
+                    • Section
+                    <span th:text="${currentUser.section}">A</span>
+                </p>
+            </div>
+
+        </div>
+
+        <a href="/academic/profile"
+           class="btn btn-primary academic-profile-btn">
+
+            <i class="bi bi-person-vcard me-1"></i>
+
+            View Profile
+
+        </a>
+
+
+    </div>
+
 
 
     <!-- ============================= -->
@@ -409,6 +548,30 @@
             </div>
 
         </div>
+        <!-- TOTAL ASSIGNMENTS -->
+
+        <div class="col-md-6 col-lg-3">
+
+            <div class="stat-card">
+
+                <div class="stat-icon assignments-icon">
+
+                    <i class="bi bi-journal-text"></i>
+
+                </div>
+
+                <div class="stat-title">
+                    Assignments
+                </div>
+
+                <p class="stat-number"
+                   th:text="${totalAssignments}">
+                    0
+                </p>
+
+            </div>
+
+        </div>
 
     </div>
 
@@ -508,6 +671,33 @@
             </div>
 
         </div>
+        <!-- ASSIGNMENTS -->
+
+        <div class="col-md-4">
+
+            <div class="quick-card">
+
+                <i class="bi bi-journal-text"></i>
+
+                <h5>
+                    Assignments
+                </h5>
+
+                <p>
+                    View assignments, submit your work
+                    and track your academic submissions.
+                </p>
+
+                <a href="/assignments"
+                   class="btn btn-primary quick-btn">
+
+                    View Assignments
+
+                </a>
+
+            </div>
+
+        </div>
 
     </div>
 
@@ -517,7 +707,7 @@
         TaskFlow Pro • Collaborative Project Management Platform
 
     </div>
-    ```
+
 
 </main>
 

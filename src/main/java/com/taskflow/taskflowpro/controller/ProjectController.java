@@ -65,4 +65,11 @@ public class ProjectController {
 
         return "redirect:/projects";
     }
+    @GetMapping("/{id}/studio")
+    public String openStudio(@PathVariable Long id, Model model) {
+
+        model.addAttribute("projectId", id);
+
+        return "studio";
+    }
 }

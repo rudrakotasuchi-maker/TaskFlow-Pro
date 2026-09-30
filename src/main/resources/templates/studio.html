@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org">
 
@@ -20,23 +21,367 @@
             box-sizing: border-box;
         }
 
-        body {
-            margin: 0;
-            background: #1e1e1e;
-            color: white;
-            overflow: hidden;
-            font-family: "Segoe UI", Arial, sans-serif;
+        :root {
+            --bg: #1e1e1e;
+            --topbar: #181818;
+            --activity: #181818;
+            --explorer: #252526;
+            --editor: #1e1e1e;
+            --panel: #181818;
+            --border: #333333;
+            --border-light: #3c3c3c;
+            --text: #cccccc;
+            --muted: #858585;
+            --blue: #3794ff;
+            --green: #4ec9b0;
+            --orange: #dcdcaa;
+
+            --explorer-width: 250px;
+            --ai-width: 340px;
+            --terminal-height: 270px;
         }
 
-        /* ==========================================
-           TOP BAR
-        ========================================== */
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100vh;
+
+            background: var(--bg);
+            color: var(--text);
+
+            overflow: hidden;
+
+            font-family:
+                    "Segoe UI",
+                    Arial,
+                    sans-serif;
+        }
+
+
+        /* =====================================================
+           COMPLETE STUDIO
+        ===================================================== */
+
+        .studio {
+            width: 100%;
+            height: 100vh;
+
+            display: flex;
+            flex-direction: column;
+
+            overflow: hidden;
+        }
+
+
+        /* =====================================================
+           TOP MENU BAR
+        ===================================================== */
 
         .topbar {
 
-            height: 60px;
+            height: 48px;
+
+            flex: 0 0 48px;
+
+            display: flex;
+            align-items: center;
+
+            background: var(--topbar);
+
+            border-bottom: 1px solid var(--border);
+
+            padding: 0 12px;
+
+            gap: 18px;
+        }
+
+
+        .taskflow-logo {
+
+            display: flex;
+            align-items: center;
+
+            gap: 8px;
+
+            min-width: 150px;
+
+            color: #ffffff;
+
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+
+        .taskflow-logo-icon {
+
+            width: 26px;
+            height: 26px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 6px;
+
+            background: #0e639c;
+
+            font-size: 14px;
+        }
+
+
+        .menu-items {
+
+            display: flex;
+            align-items: center;
+
+            gap: 2px;
+
+            height: 100%;
+        }
+
+
+        .menu-item {
+
+            height: 32px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 9px;
+
+            border: none;
+            border-radius: 4px;
+
+            background: transparent;
+
+            color: #cccccc;
+
+            font-size: 13px;
+
+            cursor: pointer;
+        }
+
+
+        .menu-item:hover {
+
+            background: #2a2d2e;
+
+            color: #ffffff;
+        }
+
+
+        .topbar-spacer {
+            flex: 1;
+        }
+
+
+        .project-title {
+
+            color: #aaaaaa;
+
+            font-size: 12px;
+
+            white-space: nowrap;
+        }
+
+
+        .top-action {
+
+            height: 30px;
+
+            border: 1px solid #3c3c3c;
+
+            border-radius: 4px;
+
+            padding: 0 11px;
 
             background: #252526;
+
+            color: #cccccc;
+
+            font-size: 12px;
+
+            cursor: pointer;
+        }
+
+
+        .top-action:hover {
+
+            background: #333333;
+
+            color: white;
+        }
+
+
+        .top-action.run {
+
+            background: #0e639c;
+
+            border-color: #1177bb;
+
+            color: white;
+        }
+
+
+        .top-action.run:hover {
+
+            background: #1177bb;
+        }
+
+
+        /* =====================================================
+           MAIN WORKSPACE
+        ===================================================== */
+
+        .main-layout {
+
+            flex: 1;
+
+            min-height: 0;
+
+            display: flex;
+
+            width: 100%;
+
+            --explorer-width: 250px;
+            --ai-width: 340px;
+        }
+
+
+        /* =====================================================
+           ACTIVITY BAR
+        ===================================================== */
+
+        .activity-bar {
+
+            width: 52px;
+
+            flex: 0 0 52px;
+
+            background: var(--activity);
+
+            border-right: 1px solid #252525;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 8px 0;
+
+            z-index: 30;
+        }
+
+
+        .activity-top,
+        .activity-bottom {
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            gap: 6px;
+        }
+
+
+        .activity-button {
+
+            width: 44px;
+            height: 44px;
+
+            border: none;
+
+            border-left: 2px solid transparent;
+
+            background: transparent;
+
+            color: #858585;
+
+            font-size: 21px;
+
+            cursor: pointer;
+
+            position: relative;
+        }
+
+
+        .activity-button:hover {
+
+            color: #ffffff;
+
+            background: #252526;
+        }
+
+
+        .activity-button.active {
+
+            color: #ffffff;
+
+            border-left-color: var(--blue);
+        }
+
+
+        .activity-badge {
+
+            position: absolute;
+
+            right: 3px;
+            bottom: 3px;
+
+            min-width: 15px;
+            height: 15px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: #0e639c;
+
+            color: white;
+
+            font-size: 9px;
+        }
+
+
+        /* =====================================================
+           EXPLORER
+        ===================================================== */
+
+        .sidebar {
+
+            width: var(--explorer-width);
+
+            flex: 0 0 var(--explorer-width);
+
+            min-width: 180px;
+            max-width: 420px;
+
+            background: var(--explorer);
+
+            border-right: none;
+
+            overflow-y: auto;
+
+            position: relative;
+
+            display: flex;
+
+            flex-direction: column;
+        }
+
+
+        .explorer-header {
+
+            height: 44px;
+
+            flex: 0 0 44px;
 
             display: flex;
 
@@ -44,210 +389,920 @@
 
             justify-content: space-between;
 
-            padding: 0 20px;
+            padding: 0 13px;
 
-            border-bottom: 1px solid #3c3c3c;
+            color: #bbbbbb;
 
-        }
-
-        .studio-title {
-
-            font-size: 22px;
-
-            font-weight: 700;
-
-        }
-
-        .project-title {
-
-            font-size: 16px;
-
-            color: #cccccc;
-
-        }
-
-
-        /* ==========================================
-           MAIN LAYOUT
-        ========================================== */
-
-        .main-layout {
-
-            height: calc(100vh - 60px);
-
-            display: flex;
-
-        }
-
-
-        /* ==========================================
-           LEFT EXPLORER
-        ========================================== */
-
-        .sidebar {
-
-            width: 220px;
-
-            flex-shrink: 0;
-
-            background: #2d2d30;
-
-            padding: 18px;
-
-            border-right: 1px solid #3c3c3c;
-
-            overflow-y: auto;
-
-        }
-
-        .sidebar-title {
-
-            font-size: 17px;
+            font-size: 11px;
 
             font-weight: 600;
 
-            margin-bottom: 12px;
+            text-transform: uppercase;
 
+            letter-spacing: .5px;
         }
 
-        .file-item {
 
-            padding: 8px 10px;
+        .explorer-actions {
+
+            display: flex;
+
+            gap: 2px;
+        }
+
+
+        .explorer-action {
+
+            width: 27px;
+            height: 27px;
+
+            border: none;
+
+            border-radius: 4px;
+
+            background: transparent;
+
+            color: #999;
 
             cursor: pointer;
-
-            border-radius: 5px;
-
-            margin-bottom: 3px;
-
-            color: #dddddd;
-
         }
 
-        .file-item:hover {
+
+        .explorer-action:hover {
 
             background: #3e3e42;
 
+            color: white;
         }
 
 
-        /* ==========================================
-           CENTER DEVELOPMENT AREA
-        ========================================== */
+        .workspace-title {
+
+            height: 32px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 13px;
+
+            color: #cccccc;
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+
+        .workspace-title::before {
+
+            content: "⌄";
+
+            margin-right: 7px;
+
+            color: #888;
+        }
+
+
+        .sidebar-navigation {
+
+            padding: 0 10px 12px;
+        }
+
+
+        .sidebar-navigation a {
+
+            height: 30px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 9px;
+
+            margin-bottom: 2px;
+
+            border-radius: 4px;
+
+            color: #bbbbbb;
+
+            text-decoration: none;
+
+            font-size: 12px;
+        }
+
+
+        .sidebar-navigation a:hover {
+
+            background: #37373d;
+
+            color: white;
+        }
+
+
+        .sidebar-title {
+            display: none;
+        }
+
+
+        .file-explorer-title {
+
+            padding: 7px 13px;
+
+            color: #888;
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: .6px;
+        }
+
+
+        #fileExplorer {
+
+            padding: 0 7px 15px;
+        }
+
+
+        .file-item {
+
+            padding: 6px 9px;
+
+            margin-bottom: 1px;
+
+            border-radius: 3px;
+
+            cursor: pointer;
+
+            color: #cccccc;
+
+            font-size: 13px;
+
+            transition: background .1s ease;
+        }
+
+
+        .file-item:hover {
+
+            background: #37373d;
+
+            color: white;
+        }
+
+
+        /* =====================================================
+           SIDE RESIZERS
+        ===================================================== */
+
+        .side-resizer {
+
+            flex: 0 0 5px;
+
+            width: 5px;
+
+            background: #252526;
+
+            cursor: ew-resize;
+
+            position: relative;
+
+            z-index: 50;
+        }
+
+
+        .side-resizer::after {
+
+            content: "";
+
+            position: absolute;
+
+            top: 50%;
+            left: 2px;
+
+            transform: translateY(-50%);
+
+            width: 1px;
+            height: 50px;
+
+            background: #555;
+        }
+
+
+        .side-resizer:hover {
+
+            background: #2d2d30;
+        }
+
+
+        .side-resizer:hover::after {
+
+            background: var(--blue);
+
+            height: 80px;
+        }
+
+
+        body.side-resizing {
+
+            cursor: ew-resize;
+
+            user-select: none;
+        }
+
+
+        body.side-resizing * {
+
+            cursor: ew-resize !important;
+
+            user-select: none !important;
+        }
+
+
+        /* =====================================================
+           DEVELOPMENT AREA
+        ===================================================== */
 
         .development-area {
 
             flex: 1;
 
             min-width: 0;
+            min-height: 0;
 
             display: flex;
 
             flex-direction: column;
 
+            background: var(--editor);
+
+            overflow: hidden;
+
+            --terminal-height: 270px;
         }
 
-        #editor {
 
-            height: 65vh;
+        /* =====================================================
+           EDITOR HEADER / TABS
+        ===================================================== */
 
-            width: 100%;
+        .editor-top {
 
-        }
+            height: 38px;
 
-        #consolePanel {
-
-            height: 22vh;
-
-            background: #111;
-
-            color: #00ff66;
-
-            border-top: 2px solid #333;
-
-            padding: 12px;
-
-            overflow: auto;
-
-            font-family: Consolas, monospace;
-
-            white-space: pre-wrap;
-
-        }
-
-        .console-input {
-
-            height: 42px;
+            flex: 0 0 38px;
 
             display: flex;
 
-            border-top: 1px solid #333;
+            align-items: stretch;
 
+            background: #181818;
+
+            border-bottom: 1px solid #2d2d2d;
         }
 
 
-        /* ==========================================
-           AI PANEL
-        ========================================== */
-
-        .ai-panel {
-
-            width: 320px;
-
-            flex-shrink: 0;
-
-            background: #252526;
-
-            border-left: 1px solid #3c3c3c;
+        .editor-tabs {
 
             display: flex;
 
-            flex-direction: column;
+            min-width: 0;
 
+            overflow-x: auto;
         }
 
-        .ai-header {
 
-            height: 58px;
+        .editor-tabs::-webkit-scrollbar {
+            height: 0;
+        }
+
+
+        .editor-tab {
+
+            min-width: 130px;
+
+            max-width: 220px;
+
+            height: 38px;
 
             display: flex;
 
             align-items: center;
 
-            padding: 0 16px;
+            gap: 8px;
 
-            border-bottom: 1px solid #3c3c3c;
+            padding: 0 13px;
 
-            background: #2d2d30;
+            border-right: 1px solid #2d2d2d;
 
+            border-top: 1px solid transparent;
+
+            background: #181818;
+
+            color: #888;
+
+            font-size: 12px;
+
+            white-space: nowrap;
         }
 
-        .ai-icon {
 
-            font-size: 24px;
+        .editor-tab.active {
 
-            margin-right: 10px;
+            background: #1e1e1e;
 
+            color: #ffffff;
+
+            border-top-color: var(--blue);
         }
 
-        .ai-title {
 
-            font-weight: 700;
+        .editor-tab-icon {
 
-            font-size: 16px;
+            color: #f0db4f;
 
+            font-size: 13px;
         }
 
-        .ai-subtitle {
+
+        .editor-tab-close {
+
+            margin-left: auto;
+
+            color: #777;
+
+            font-size: 14px;
+        }
+
+
+        .editor-tab-close:hover {
+
+            color: white;
+        }
+
+
+        .editor-actions {
+
+            margin-left: auto;
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 0 7px;
+
+            gap: 3px;
+        }
+
+
+        .editor-action {
+
+            width: 28px;
+            height: 28px;
+
+            border: none;
+
+            background: transparent;
+
+            color: #888;
+
+            border-radius: 4px;
+
+            cursor: pointer;
+        }
+
+
+        .editor-action:hover {
+
+            background: #2a2a2a;
+
+            color: white;
+        }
+
+
+        /* =====================================================
+           BREADCRUMB
+        ===================================================== */
+
+        .breadcrumbs {
+
+            height: 27px;
+
+            flex: 0 0 27px;
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 0 12px;
+
+            background: #1e1e1e;
+
+            border-bottom: 1px solid #252525;
+
+            color: #858585;
 
             font-size: 11px;
 
-            color: #999;
-
+            gap: 7px;
         }
 
 
-        /* AI messages */
+        .breadcrumb-current {
+
+            color: #cccccc;
+        }
+
+
+        /* =====================================================
+           MONACO EDITOR
+        ===================================================== */
+
+        #editor {
+
+            flex: 1 1 auto;
+
+            width: 100%;
+
+            min-height: 150px;
+
+            overflow: hidden;
+        }
+
+
+        /* =====================================================
+           TERMINAL
+        ===================================================== */
+
+        .terminal-area {
+
+            flex: 0 0 var(--terminal-height);
+
+            min-height: 140px;
+
+            max-height: 75%;
+
+            display: flex;
+
+            flex-direction: column;
+
+            background: #0d0d0d;
+
+            border-top: 1px solid #303030;
+
+            overflow: hidden;
+        }
+
+
+        .terminal-resizer {
+
+            height: 6px;
+
+            flex: 0 0 6px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #181818;
+
+            cursor: ns-resize;
+
+            user-select: none;
+
+            position: relative;
+
+            z-index: 20;
+        }
+
+
+        .terminal-resizer:hover {
+
+            background: #252525;
+        }
+
+
+        .terminal-resizer-grip {
+
+            display: flex;
+
+            gap: 4px;
+
+            align-items: center;
+        }
+
+
+        .terminal-resizer-grip span {
+
+            width: 18px;
+            height: 2px;
+
+            border-radius: 2px;
+
+            background: #555;
+
+            transition: background .15s ease;
+        }
+
+
+        .terminal-resizer:hover
+        .terminal-resizer-grip span {
+
+            background: var(--blue);
+        }
+
+
+        .terminal-header {
+
+            height: 36px;
+
+            flex: 0 0 36px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 9px;
+
+            background: #181818;
+
+            border-bottom: 1px solid #2d2d2d;
+        }
+
+
+        .terminal-tabs {
+
+            display: flex;
+
+            height: 100%;
+
+            align-items: stretch;
+        }
+
+
+        .terminal-tab {
+
+            border: none;
+
+            background: transparent;
+
+            color: #888;
+
+            padding: 0 13px;
+
+            font-size: 11px;
+
+            font-weight: 500;
+
+            cursor: pointer;
+
+            border-bottom: 2px solid transparent;
+        }
+
+
+        .terminal-tab:hover {
+
+            color: #ddd;
+
+            background: #202020;
+        }
+
+
+        .terminal-tab.active {
+
+            color: #fff;
+
+            border-bottom-color: var(--blue);
+
+            background: #1e1e1e;
+        }
+
+
+        .terminal-actions {
+
+            display: flex;
+
+            gap: 3px;
+        }
+
+
+        .terminal-actions button {
+
+            width: 28px;
+            height: 26px;
+
+            border: none;
+
+            border-radius: 4px;
+
+            background: transparent;
+
+            color: #888;
+
+            cursor: pointer;
+        }
+
+
+        .terminal-actions button:hover {
+
+            background: #2a2a2a;
+
+            color: #fff;
+        }
+
+
+        #consolePanel {
+
+            flex: 1;
+
+            min-height: 0;
+
+            width: 100%;
+
+            padding: 12px 16px;
+
+            background: #0d0d0d;
+
+            color: #d4d4d4;
+
+            font-family:
+                    "Cascadia Code",
+                    "Consolas",
+                    monospace;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+
+            white-space: pre-wrap;
+
+            overflow-y: auto;
+
+            overflow-x: auto;
+        }
+
+
+        #consolePanel::-webkit-scrollbar {
+
+            width: 9px;
+            height: 9px;
+        }
+
+
+        #consolePanel::-webkit-scrollbar-track {
+
+            background: #111;
+        }
+
+
+        #consolePanel::-webkit-scrollbar-thumb {
+
+            background: #3a3a3a;
+
+            border-radius: 5px;
+        }
+
+
+        #consolePanel::-webkit-scrollbar-thumb:hover {
+
+            background: #555;
+        }
+
+
+        .terminal-welcome {
+
+            color: #888;
+
+            line-height: 1.8;
+        }
+
+
+        .terminal-brand {
+
+            color: var(--blue);
+
+            font-weight: 600;
+
+            letter-spacing: 1px;
+        }
+
+
+        .terminal-status {
+
+            color: var(--green);
+
+            font-size: 12px;
+        }
+
+
+        .terminal-line {
+
+            color: #777;
+
+            margin-top: 4px;
+        }
+
+
+        /* =====================================================
+           PROGRAM INPUT
+        ===================================================== */
+
+        .console-input {
+
+            height: 40px;
+
+            flex: 0 0 40px;
+
+            display: flex;
+
+            align-items: center;
+
+            background: #181818;
+
+            border-top: 1px solid #2d2d2d;
+
+            padding: 0 8px;
+        }
+
+
+        .terminal-prompt {
+
+            color: var(--green);
+
+            font-family: Consolas, monospace;
+
+            font-size: 14px;
+
+            padding: 0 8px;
+        }
+
+
+        .terminal-input {
+
+            flex: 1;
+
+            height: 30px;
+
+            border: none;
+
+            outline: none;
+
+            background: #111;
+
+            color: #ddd;
+
+            font-family: Consolas, monospace;
+
+            font-size: 12px;
+
+            padding: 0 10px;
+        }
+
+
+        .terminal-input::placeholder {
+
+            color: #666;
+        }
+
+
+        .terminal-input:focus {
+
+            background: #151515;
+        }
+
+
+        .terminal-send-btn {
+
+            height: 30px;
+
+            margin-left: 6px;
+
+            padding: 0 13px;
+
+            border: 1px solid #3a3a3a;
+
+            border-radius: 4px;
+
+            background: #0e639c;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 12px;
+        }
+
+
+        .terminal-send-btn:hover {
+
+            background: #1177bb;
+        }
+
+
+        /* =====================================================
+           MAXIMIZED TERMINAL
+        ===================================================== */
+
+        .development-area.terminal-maximized #editor,
+        .development-area.terminal-maximized .editor-top,
+        .development-area.terminal-maximized .breadcrumbs {
+
+            display: none;
+        }
+
+
+        .development-area.terminal-maximized .terminal-area {
+
+            flex: 1 1 auto;
+
+            max-height: 100%;
+
+            height: auto;
+        }
+
+
+        body.terminal-resizing {
+
+            cursor: ns-resize;
+
+            user-select: none;
+        }
+
+
+        body.terminal-resizing * {
+
+            cursor: ns-resize !important;
+
+            user-select: none !important;
+        }
+
+
+        /* =====================================================
+           AI PANEL
+        ===================================================== */
+
+        .ai-panel {
+
+            width: var(--ai-width);
+
+            flex: 0 0 var(--ai-width);
+
+            min-width: 270px;
+            max-width: 500px;
+
+            background: #252526;
+
+            border-left: none;
+
+            display: flex;
+
+            flex-direction: column;
+
+            position: relative;
+        }
+
+
+        .ai-header {
+
+            height: 54px;
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 0 14px;
+
+            border-bottom: 1px solid var(--border-light);
+
+            background: #2d2d30;
+        }
+
+
+        .ai-icon {
+
+            font-size: 21px;
+
+            margin-right: 9px;
+        }
+
+
+        .ai-title {
+
+            font-weight: 600;
+
+            font-size: 14px;
+        }
+
+
+        .ai-subtitle {
+
+            font-size: 10px;
+
+            color: #888;
+        }
+
 
         .ai-messages {
 
@@ -255,68 +1310,77 @@
 
             overflow-y: auto;
 
-            padding: 15px;
-
+            padding: 12px;
         }
+
 
         .ai-message {
 
             background: #333337;
 
-            border-radius: 10px;
+            border: 1px solid #3e3e42;
 
-            padding: 11px 13px;
+            border-radius: 7px;
 
-            margin-bottom: 12px;
+            padding: 10px 11px;
 
-            font-size: 14px;
+            margin-bottom: 10px;
 
-            line-height: 1.5;
+            font-size: 12px;
 
+            line-height: 1.55;
         }
+
 
         .ai-message.user {
 
-            background: #0d6efd;
+            background: #094771;
 
-            margin-left: 25px;
+            border-color: #0e639c;
 
+            margin-left: 20px;
         }
 
-
-        /* AI quick actions */
 
         .ai-actions {
 
-            padding: 10px 12px;
+            padding: 9px 10px;
 
-            border-top: 1px solid #3c3c3c;
+            border-top: 1px solid var(--border-light);
 
-            border-bottom: 1px solid #3c3c3c;
-
+            border-bottom: 1px solid var(--border-light);
         }
+
 
         .ai-action-btn {
 
             width: 100%;
 
-            margin-bottom: 7px;
+            margin-bottom: 5px;
 
             text-align: left;
 
             background: #333337;
 
-            color: #ddd;
+            color: #ccc;
 
             border: 1px solid #444;
 
-            border-radius: 7px;
+            border-radius: 5px;
 
-            padding: 8px 10px;
+            padding: 7px 9px;
 
-            font-size: 13px;
+            font-size: 11px;
 
+            cursor: pointer;
         }
+
+
+        .ai-action-btn:last-child {
+
+            margin-bottom: 0;
+        }
+
 
         .ai-action-btn:hover {
 
@@ -324,18 +1388,17 @@
 
             color: white;
 
+            border-color: #555;
         }
 
-
-        /* AI input */
 
         .ai-input-area {
 
-            padding: 12px;
+            padding: 10px;
 
             background: #2d2d30;
-
         }
+
 
         .ai-input {
 
@@ -345,11 +1408,13 @@
 
             border: 1px solid #555;
 
-            border-radius: 8px;
+            border-radius: 5px;
 
             resize: none;
 
+            font-size: 12px;
         }
+
 
         .ai-input:focus {
 
@@ -357,129 +1422,140 @@
 
             color: white;
 
-            border-color: #0d6efd;
+            border-color: var(--blue);
 
             box-shadow: none;
-
         }
+
 
         .ai-send-btn {
 
-            margin-top: 8px;
+            margin-top: 7px;
 
             width: 100%;
 
-            border-radius: 8px;
+            border-radius: 5px;
 
-        }
-
-
-        /* ==========================================
-           RESPONSIVE
-        ========================================== */
-
-        @media (max-width: 1100px) {
-
-            .ai-panel {
-
-                width: 280px;
-
-            }
-
-            .sidebar {
-
-                width: 190px;
-
-            }
-
-        }
-
-        @media (max-width: 850px) {
-
-            .ai-panel {
-
-                display: none;
-
-            }
-
-        }
-        /* ==========================================
-   AI RESPONSE FORMATTING
-========================================== */
-
-        .ai-response {
-            line-height: 1.6;
-        }
-
-        .ai-heading {
-            color: #ffffff;
-            margin-top: 12px;
-            margin-bottom: 8px;
-            font-weight: 700;
-        }
-
-        .ai-list-item {
-            margin: 5px 0;
-            padding-left: 5px;
-        }
-
-        .ai-inline-code {
-            background: #1e1e1e;
-            color: #61dafb;
-            padding: 2px 5px;
-            border-radius: 4px;
-            font-family: Consolas, monospace;
-        }
-
-        .ai-code-block {
-            margin: 12px 0;
-            background: #1e1e1e;
-            border: 1px solid #444;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .ai-code-header {
-            height: 35px;
-            background: #2d2d30;
-            border-bottom: 1px solid #444;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            padding: 0 10px;
-
-            color: #aaa;
             font-size: 12px;
         }
 
-        .ai-code-header span {
-            text-transform: uppercase;
+
+        /* =====================================================
+           AI FORMATTING
+        ===================================================== */
+
+        .ai-response {
+
+            line-height: 1.6;
         }
 
+
+        .ai-heading {
+
+            color: #ffffff;
+
+            margin-top: 10px;
+
+            margin-bottom: 7px;
+
+            font-weight: 700;
+        }
+
+
+        .ai-list-item {
+
+            margin: 4px 0;
+
+            padding-left: 4px;
+        }
+
+
+        .ai-inline-code {
+
+            background: #1e1e1e;
+
+            color: #61dafb;
+
+            padding: 2px 4px;
+
+            border-radius: 3px;
+
+            font-family: Consolas, monospace;
+        }
+
+
+        .ai-code-block {
+
+            margin: 10px 0;
+
+            background: #1e1e1e;
+
+            border: 1px solid #444;
+
+            border-radius: 6px;
+
+            overflow: hidden;
+        }
+        .ai-separator {
+            border: 0;
+            border-top: 1px solid #444;
+            margin: 12px 0;
+        } where i have to add this
+
+
+        .ai-code-header {
+
+            height: 32px;
+
+            background: #2d2d30;
+
+            border-bottom: 1px solid #444;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 8px;
+
+            color: #aaa;
+
+            font-size: 10px;
+        }
+
+
         .ai-copy-btn {
+
             background: #444;
+
             color: #ddd;
 
             border: none;
-            border-radius: 5px;
 
-            padding: 4px 9px;
+            border-radius: 4px;
 
-            font-size: 11px;
+            padding: 3px 8px;
+
+            font-size: 10px;
 
             cursor: pointer;
         }
 
+
         .ai-copy-btn:hover {
+
             background: #0d6efd;
+
             color: white;
         }
 
+
         .ai-code-block pre {
+
             margin: 0;
-            padding: 12px;
+
+            padding: 10px;
 
             overflow-x: auto;
 
@@ -487,49 +1563,212 @@
 
             font-family: Consolas, "Courier New", monospace;
 
-            font-size: 13px;
+            font-size: 11px;
 
             line-height: 1.5;
 
             white-space: pre-wrap;
         }
 
-        .ai-code-block code {
-            font-family: Consolas, "Courier New", monospace;
+
+        /* =====================================================
+           STATUS BAR
+        ===================================================== */
+
+        .statusbar {
+
+            height: 24px;
+
+            flex: 0 0 24px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 9px;
+
+            background: #007acc;
+
+            color: white;
+
+            font-size: 10px;
+        }
+
+
+        .status-left,
+        .status-right {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+
+        .status-item {
+
+            white-space: nowrap;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1100px) {
+
+            .ai-panel {
+
+                width: 290px;
+
+                flex-basis: 290px;
+            }
+
+            .sidebar {
+
+                width: 210px;
+
+                flex-basis: 210px;
+            }
+
+        }
+
+
+        @media (max-width: 850px) {
+
+            .activity-bar {
+
+                display: none;
+            }
+
+            .ai-panel,
+            .ai-resizer {
+
+                display: none;
+            }
+
+            .sidebar {
+
+                width: 200px;
+
+                flex-basis: 200px;
+            }
+
+            .explorer-resizer {
+
+                display: none;
+            }
+
+            .menu-items {
+
+                display: none;
+            }
+
+            .project-title {
+
+                display: none;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .sidebar {
+
+                display: none;
+            }
+
+            .topbar {
+
+                padding: 0 8px;
+            }
+
+            .taskflow-logo {
+
+                min-width: auto;
+            }
+
+            .project-title {
+
+                display: none;
+            }
+
         }
 
     </style>
+    ```
 
 </head>
 
-
 <body>
 
+<div class="studio">
 
-<!-- ==========================================
-     TOP BAR
-========================================== -->
+    ```
+    <!-- =====================================================
+         TOP MENU BAR
+    ====================================================== -->
 
-<div class="topbar">
+    <div class="topbar">
 
-    <div class="studio-title">
+        <div class="taskflow-logo">
 
-        🚀 TaskFlow Studio
+            <div class="taskflow-logo-icon">
+                🚀
+            </div>
 
-    </div>
+            <span>TaskFlow Studio</span>
 
-
-    <div class="project-title">
-
-        Demo Project
-
-    </div>
+        </div>
 
 
-    <div>
+        <div class="menu-items">
+
+            <button class="menu-item">
+                File
+            </button>
+
+            <button class="menu-item">
+                Edit
+            </button>
+
+            <button class="menu-item">
+                Selection
+            </button>
+
+            <button class="menu-item">
+                View
+            </button>
+
+            <button class="menu-item">
+                Run
+            </button>
+
+            <button class="menu-item">
+                Terminal
+            </button>
+
+            <button class="menu-item">
+                Help
+            </button>
+
+        </div>
+
+
+        <div class="topbar-spacer"></div>
+
+
+        <div class="project-title">
+            Demo Project
+        </div>
+
 
         <button id="saveBtn"
-                class="btn btn-success btn-sm me-2">
+                class="top-action">
 
             💾 Save
 
@@ -537,7 +1776,7 @@
 
 
         <button id="runBtn"
-                class="btn btn-primary btn-sm">
+                class="top-action run">
 
             ▶ Run
 
@@ -545,252 +1784,528 @@
 
     </div>
 
-</div>
+
+    <!-- =====================================================
+         MAIN LAYOUT
+    ====================================================== -->
+
+    <div class="main-layout">
 
 
-<!-- ==========================================
-     MAIN LAYOUT
-========================================== -->
+        <!-- =================================================
+             ACTIVITY BAR
+        ================================================== -->
 
-<div class="main-layout">
+        <div class="activity-bar">
 
+            <div class="activity-top">
 
-    <!-- ======================================
-         LEFT EXPLORER
-    ======================================= -->
+                <button class="activity-button active"
+                        title="Explorer">
+                    📁
+                </button>
 
-    <div class="sidebar">
+                <button class="activity-button"
+                        title="Search">
+                    🔍
+                </button>
 
-        <div class="sidebar-title">
+                <button class="activity-button"
+                        title="Source Control">
+                    🔀
+                </button>
 
-            📁 Explorer
+                <button class="activity-button"
+                        title="Run and Debug">
+                    ▶
+                </button>
 
-        </div>
-
-
-        <hr>
-
-
-        <div class="mb-3">
-
-            <a href="/"
-               class="btn btn-outline-light w-100 mb-2">
-
-                🏠 Dashboard
-
-            </a>
-
-
-            <a href="/projects"
-               class="btn btn-outline-light w-100 mb-2">
-
-                📁 Projects
-
-            </a>
-
-
-            <a href="/tasks"
-               class="btn btn-outline-light w-100 mb-3">
-
-                ✅ Tasks
-
-            </a>
-
-        </div>
-
-
-        <hr>
-
-
-        <div id="fileExplorer">
-
-            <!-- studio.js dynamically loads files here -->
-
-        </div>
-
-    </div>
-
-
-    <!-- ======================================
-         CENTER DEVELOPMENT AREA
-    ======================================= -->
-
-    <div class="development-area">
-
-
-        <!-- MONACO EDITOR -->
-
-        <div id="editor"></div>
-
-
-        <!-- CONSOLE -->
-
-        <div id="consolePanel">
-
-            Console Ready...
-
-        </div>
-
-
-        <!-- PROGRAM INPUT -->
-
-        <div class="console-input">
-
-            <input
-                    id="consoleInput"
-                    class="form-control rounded-0"
-                    placeholder="Program Input...">
-
-
-            <button
-                    id="sendInputBtn"
-                    class="btn btn-primary rounded-0">
-
-                Send
-
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- ======================================
-         AI ASSISTANT
-    ======================================= -->
-
-    <div class="ai-panel">
-
-
-        <!-- AI HEADER -->
-
-        <div class="ai-header">
-
-            <div class="ai-icon">
-
-                🤖
+                <button class="activity-button"
+                        title="Extensions">
+                    🧩
+                </button>
 
             </div>
 
 
-            <div>
+            <div class="activity-bottom">
 
-                <div class="ai-title">
+                <button class="activity-button"
+                        title="Settings">
+                    ⚙️
+                </button>
 
-                    TaskFlow AI
+            </div>
 
-                </div>
+        </div>
 
 
-                <div class="ai-subtitle">
+        <!-- =================================================
+             EXPLORER
+        ================================================== -->
 
-                    Development Assistant
+        <div class="sidebar">
+
+            <div class="explorer-header">
+
+            <span>
+                Explorer
+            </span>
+
+
+                <div class="explorer-actions">
+
+                    <button class="explorer-action"
+                            title="New File">
+                        +
+                    </button>
+
+                    <button class="explorer-action"
+                            title="More Actions">
+                        ...
+                    </button>
 
                 </div>
 
             </div>
 
-        </div>
 
+            <div class="workspace-title">
 
-        <!-- AI CHAT -->
-
-        <div id="aiMessages"
-             class="ai-messages">
-
-
-            <div class="ai-message">
-
-                👋 <strong>Hello!</strong>
-
-                <br><br>
-
-                I'm TaskFlow AI.
-
-                I can help you understand code,
-                debug errors, generate programs,
-                and improve your project.
-
-                <br><br>
-
-                Ask me anything about your code.
+                TASKFLOW PROJECT
 
             </div>
 
 
-        </div>
+            <div class="sidebar-navigation">
+
+                <a href="/">
+                    🏠 Dashboard
+                </a>
+
+                <a href="/projects">
+                    📁 Projects
+                </a>
+
+                <a href="/tasks">
+                    ✅ Tasks
+                </a>
+
+            </div>
 
 
-        <!-- QUICK ACTIONS -->
+            <div class="file-explorer-title">
 
-        <div class="ai-actions">
+                PROJECT FILES
 
-            <button
-                    class="ai-action-btn"
-                    id="explainCodeBtn">
-
-                🔍 Explain Current Code
-
-            </button>
+            </div>
 
 
-            <button
-                    class="ai-action-btn"
-                    id="generateCodeBtn">
+            <div id="fileExplorer">
 
-                ✨ Generate Code
+                <!-- studio.js dynamically loads files -->
 
-            </button>
-
-
-            <button
-                    class="ai-action-btn"
-                    id="debugCodeBtn">
-
-                🐛 Debug Current Code
-
-            </button>
-
-
-            <button
-                    class="ai-action-btn"
-                    id="documentationBtn">
-
-                📝 Generate Documentation
-
-            </button>
+            </div>
 
         </div>
 
 
-        <!-- AI INPUT -->
+        <!-- EXPLORER RESIZER -->
 
-        <div class="ai-input-area">
-
-            <textarea
-                    id="aiInput"
-                    class="form-control ai-input"
-                    rows="3"
-                    placeholder="Ask TaskFlow AI..."></textarea>
+        <div id="explorerResizer"
+             class="side-resizer explorer-resizer"
+             title="Drag to resize Explorer">
+        </div>
 
 
-            <button
-                    id="aiSendBtn"
-                    class="btn btn-primary ai-send-btn">
+        <!-- =================================================
+             CENTER DEVELOPMENT AREA
+        ================================================== -->
 
-                🤖 Ask TaskFlow AI
+        <div class="development-area">
 
-            </button>
+
+            <!-- EDITOR TABS -->
+
+            <div class="editor-top">
+
+                <div class="editor-tabs">
+
+                    <div class="editor-tab active">
+
+                    <span class="editor-tab-icon">
+                        ☕
+                    </span>
+
+                        <span>
+                        Main.java
+                    </span>
+
+                        <span class="editor-tab-close">
+                        ×
+                    </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="editor-actions">
+
+                    <button class="editor-action"
+                            title="Split Editor">
+                        ⫯
+                    </button>
+
+                    <button class="editor-action"
+                            title="More">
+                        ...
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- BREADCRUMBS -->
+
+            <div class="breadcrumbs">
+
+            <span>
+                TASKFLOW
+            </span>
+
+                <span>
+                ›
+            </span>
+
+                <span>
+                src
+            </span>
+
+                <span>
+                ›
+            </span>
+
+                <span class="breadcrumb-current">
+                Main.java
+            </span>
+
+            </div>
+
+
+            <!-- MONACO EDITOR -->
+
+            <div id="editor"></div>
+
+
+            <!-- =================================================
+                 TERMINAL
+            ================================================== -->
+
+            <div id="terminalArea"
+                 class="terminal-area">
+
+
+                <!-- DRAG HANDLE -->
+
+                <div id="terminalResizer"
+                     class="terminal-resizer">
+
+                    <div class="terminal-resizer-grip">
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TERMINAL HEADER -->
+
+                <div class="terminal-header">
+
+                    <div class="terminal-tabs">
+
+                        <button type="button"
+                                class="terminal-tab active">
+
+                            TERMINAL
+
+                        </button>
+
+
+                        <button type="button"
+                                class="terminal-tab">
+
+                            OUTPUT
+
+                        </button>
+
+
+                        <button type="button"
+                                class="terminal-tab">
+
+                            PROBLEMS
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="terminal-actions">
+
+                        <button type="button"
+                                id="clearTerminalBtn"
+                                title="Clear Terminal">
+
+                            🗑
+
+                        </button>
+
+
+                        <button type="button"
+                                id="maximizeTerminalBtn"
+                                title="Maximize Terminal">
+
+                            ⛶
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TERMINAL CONTENT -->
+
+                <div id="consolePanel">
+
+                    <div class="terminal-welcome">
+
+                        <div class="terminal-brand">
+                            TASKFLOW TERMINAL
+                        </div>
+
+                        <div class="terminal-status">
+                            ● Ready
+                        </div>
+
+                        <div class="terminal-line">
+                            Run your program to see the output here.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PROGRAM INPUT -->
+
+                <div class="console-input">
+
+                <span class="terminal-prompt">
+                    &gt;
+                </span>
+
+
+                    <input id="consoleInput"
+                           class="terminal-input"
+                           placeholder="Program input...">
+
+
+                    <button id="sendInputBtn"
+                            class="terminal-send-btn">
+
+                        Send
+
+                    </button>
+
+                </div>
+
+            </div>
 
         </div>
 
+
+        <!-- =================================================
+             AI RESIZER
+        ================================================== -->
+
+        <div id="aiResizer"
+             class="side-resizer ai-resizer"
+             title="Drag to resize TaskFlow AI">
+        </div>
+
+
+        <!-- =================================================
+             TASKFLOW AI
+        ================================================== -->
+
+        <div class="ai-panel">
+
+
+            <div class="ai-header">
+
+                <div class="ai-icon">
+                    🤖
+                </div>
+
+
+                <div>
+
+                    <div class="ai-title">
+                        TaskFlow AI
+                    </div>
+
+                    <div class="ai-subtitle">
+                        Development Assistant
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div id="aiMessages"
+                 class="ai-messages">
+
+                <div class="ai-message">
+
+                    👋 <strong>Hello!</strong>
+
+                    <br><br>
+
+                    I'm TaskFlow AI.
+
+                    I can help you understand code,
+                    debug errors, generate programs,
+                    and improve your project.
+
+                    <br><br>
+
+                    Ask me anything about your code.
+
+                </div>
+
+            </div>
+
+
+            <div class="ai-actions">
+
+                <button class="ai-action-btn"
+                        id="explainCodeBtn">
+
+                    🔍 Explain Current Code
+
+                </button>
+
+
+                <button class="ai-action-btn"
+                        id="generateCodeBtn">
+
+                    ✨ Generate Code
+
+                </button>
+
+
+                <button class="ai-action-btn"
+                        id="debugCodeBtn">
+
+                    🐛 Debug Current Code
+
+                </button>
+
+
+                <button class="ai-action-btn"
+                        id="documentationBtn">
+
+                    📝 Generate Documentation
+
+                </button>
+
+            </div>
+
+
+            <div class="ai-input-area">
+
+            <textarea id="aiInput"
+                      class="form-control ai-input"
+                      rows="3"
+                      placeholder="Ask TaskFlow AI..."></textarea>
+
+
+                <button id="aiSendBtn"
+                        class="btn btn-primary ai-send-btn">
+
+                    🤖 Ask TaskFlow AI
+
+                </button>
+
+            </div>
+
+        </div>
 
     </div>
 
+
+    <!-- =====================================================
+         STATUS BAR
+    ====================================================== -->
+
+    <div class="statusbar">
+
+        <div class="status-left">
+
+        <span class="status-item">
+            ⎇ main
+        </span>
+
+            <span class="status-item">
+            ✓
+        </span>
+
+            <span class="status-item">
+            TaskFlow
+        </span>
+
+        </div>
+
+
+        <div class="status-right">
+
+        <span class="status-item">
+            Ln 1, Col 1
+        </span>
+
+            <span class="status-item">
+            Spaces: 4
+        </span>
+
+            <span class="status-item">
+            UTF-8
+        </span>
+
+            <span class="status-item">
+            Java
+        </span>
+
+            <span class="status-item">
+            ◉
+        </span>
+
+        </div>
+
+    </div>
+    ```
+
 </div>
 
-
-<!-- PROJECT ID -->
+<!-- =====================================================
+     PROJECT ID
+====================================================== -->
 
 <script th:inline="javascript">
 
@@ -798,15 +2313,21 @@
 
 </script>
 
-<!-- MONACO -->
+<!-- =====================================================
+     MONACO
+====================================================== -->
 
 <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs/loader.js"></script>
 
-
-<!-- EXISTING STUDIO JAVASCRIPT -->
+<!-- =====================================================
+     EXISTING STUDIO JAVASCRIPT
+====================================================== -->
 
 <script src="/js/studio.js"></script>
 
+<!-- =====================================================
+     AI UI
+====================================================== -->
 
 <!-- AI UI ONLY -->
 <script>
@@ -817,13 +2338,12 @@
         const aiInput = document.getElementById("aiInput");
         const aiMessages = document.getElementById("aiMessages");
 
-        console.log("TaskFlow AI JavaScript loaded");
-        console.log("AI button:", aiSendBtn);
+        console.log("TaskFlow AI UI loaded");
 
-
-        // ==========================================
-        // MARKDOWN FORMATTER
-        // ==========================================
+        if (!aiSendBtn || !aiInput || !aiMessages) {
+            console.error("TaskFlow AI elements not found");
+            return;
+        }
 
         function formatAIResponse(text) {
 
@@ -831,137 +2351,214 @@
                 return "";
             }
 
-            // Escape HTML first for safety
+            // ==========================================
+            // CLEAN MARKDOWN ARTIFACTS
+            // ==========================================
+
+            // ==========================================
+// CLEAN AI MARKDOWN ARTIFACTS
+// ==========================================
+
+// Remove "JAVA Copy", "java Copy", "text Copy", etc.
+// Keep only the language name.
+            text = text.replace(
+                /\b(java|javascript|typescript|python|cpp|c\+\+|c|text|plaintext|json|html|css|sql|bash|shell)\s+Copy\b/gi,
+                "$1"
+            );
+
+// Remove escaped asterisks such as:
+// \*text\*
+            text = text.replace(
+                /\\+\*/g,
+                ""
+            );
+
+// Remove other escaped markdown characters
+            text = text.replace(/\\+_/g, "_");
+            text = text.replace(/\\+#/g, "#");
+            text = text.replace(/\\+-/g, "-");
+            text = text.replace(/\\+\./g, ".");
+
+// Remove markdown horizontal separators
+            text = text.replace(
+                /^\s*---+\s*$/gmi,
+                ""
+            );
+            // ==========================================
+            // EXTRACT CODE BLOCKS
+            // ==========================================
+
+            const codeBlocks = [];
+
+            text = text.replace(
+                /```([^\r\n]*)\r?\n([\s\S]*?)```/g,
+                function (match, language, code) {
+
+                    const index = codeBlocks.length;
+
+                    let lang = language.trim();
+
+                    // Clean language names such as "java Copy"
+                    lang = lang.replace(/\s+Copy$/i, "");
+
+                    if (!lang) {
+                        lang = "CODE";
+                    }
+
+                    const placeholder =
+                        "TASKFLOW_CODE_BLOCK_" + index;
+
+                    codeBlocks.push({
+                        language: lang.toUpperCase(),
+                        code: code.trim()
+                    });
+
+                    return "\n" + placeholder + "\n";
+                }
+            );
+
+            // ==========================================
+            // ESCAPE HTML
+            // ==========================================
+
             text = text
                 .replace(/&/g, "&amp;")
                 .replace(/</g, "&lt;")
                 .replace(/>/g, "&gt;");
 
+            // ==========================================
+            // INLINE CODE
+            // ==========================================
 
-            // Code blocks
             text = text.replace(
-                /```(\w+)?\n([\s\S]*?)```/g,
-                function (match, language, code) {
-
-                    const lang = language || "code";
-
-                    return `
-                    <div class="ai-code-block">
-
-                        <div class="ai-code-header">
-                            <span>${lang}</span>
-
-                            <button
-                                class="ai-copy-btn"
-                                type="button">
-                                Copy
-                            </button>
-                        </div>
-
-                        <pre><code>${code.trim()}</code></pre>
-
-                    </div>
-                `;
-
-                }
+                /`([^`\n]+)`/g,
+                '<code class="ai-inline-code">$1</code>'
             );
 
+            // ==========================================
+            // BOLD
+            // ==========================================
 
-            // Inline code
-            text = text.replace(
-                /`([^`]+)`/g,
-                "<code class=\"ai-inline-code\">$1</code>"
-            );
-
-
-            // Bold
             text = text.replace(
                 /\*\*(.*?)\*\*/g,
                 "<strong>$1</strong>"
             );
 
+            // ==========================================
+            // HEADINGS
+            // ==========================================
 
-            // Headings
             text = text.replace(
-                /^### (.*)$/gm,
-                "<h4 class=\"ai-heading\">$1</h4>"
+                /^###\s+(.*)$/gm,
+                '<h4 class="ai-heading">$1</h4>'
             );
 
             text = text.replace(
-                /^## (.*)$/gm,
-                "<h3 class=\"ai-heading\">$1</h3>"
+                /^##\s+(.*)$/gm,
+                '<h3 class="ai-heading">$1</h3>'
             );
 
             text = text.replace(
-                /^# (.*)$/gm,
-                "<h2 class=\"ai-heading\">$1</h2>"
+                /^#\s+(.*)$/gm,
+                '<h2 class="ai-heading">$1</h2>'
             );
 
+            // ==========================================
+            // NUMBERED LISTS
+            // ==========================================
 
-            // Numbered lists
             text = text.replace(
-                /^\d+\.\s+(.*)$/gm,
-                "<div class=\"ai-list-item\">• $1</div>"
+                /^\s*\d+\.\s+(.*)$/gm,
+                '<div class="ai-list-item">• $1</div>'
             );
 
+            // ==========================================
+            // BULLET LISTS
+            // ==========================================
 
-            // Bullet lists
             text = text.replace(
-                /^[-*]\s+(.*)$/gm,
-                "<div class=\"ai-list-item\">• $1</div>"
+                /^\s*[-*]\s+(.*)$/gm,
+                '<div class="ai-list-item">• $1</div>'
             );
 
+            // ==========================================
+            // CLEAN EXCESSIVE SPACING
+            // ==========================================
 
-            // New lines
-            text = text.replace(/\n/g, "<br>");
+            text = text.replace(
+                /\n[ \t]*\n[ \t]*\n+/g,
+                "\n\n"
+            );
 
+            // ==========================================
+            // CONVERT NEW LINES
+            // ==========================================
+
+            text = text.replace(
+                /\n/g,
+                "<br>"
+            );
+
+            // ==========================================
+            // RESTORE CODE BLOCKS
+            // ==========================================
+
+            codeBlocks.forEach(function (block, index) {
+
+                const placeholder =
+                    "TASKFLOW_CODE_BLOCK_" + index;
+
+                const html = `
+            <div class="ai-code-block">
+
+                <div class="ai-code-header">
+
+                    <span>${block.language}</span>
+
+                    <button
+                        type="button"
+                        class="ai-copy-btn">
+                        Copy
+                    </button>
+
+                </div>
+
+                <pre><code>${block.code}</code></pre>
+
+            </div>
+        `;
+
+                text = text.replace(
+                    placeholder,
+                    html
+                );
+
+            });
 
             return text;
-
         }
-
-
-        // ==========================================
-        // AI SEND BUTTON
-        // ==========================================
-
         aiSendBtn.addEventListener("click", async function () {
-
-            console.log("AI BUTTON CLICKED");
-
 
             const message = aiInput.value.trim();
 
-
             if (!message) {
-
                 alert("Please enter a message.");
-
                 return;
-
             }
 
 
-            // ==========================================
-            // GET CURRENT MONACO CODE
-            // ==========================================
-
+            // Get current Monaco code
             let code = "";
 
             if (
                 window.monacoEditor &&
                 typeof window.monacoEditor.getValue === "function"
             ) {
-
                 code = window.monacoEditor.getValue();
-
             }
 
 
-            // ==========================================
-            // SHOW USER MESSAGE
-            // ==========================================
-
+            // Show user message
             const userMessage = document.createElement("div");
 
             userMessage.className = "ai-message user";
@@ -971,70 +2568,49 @@
             aiMessages.appendChild(userMessage);
 
 
-            // ==========================================
-            // LOADING MESSAGE
-            // ==========================================
-
+            // Show loading
             const loadingMessage = document.createElement("div");
 
             loadingMessage.className = "ai-message";
 
-            loadingMessage.id = "aiLoading";
-
-            loadingMessage.innerHTML =
+            loadingMessage.textContent =
                 "🤖 TaskFlow AI is thinking...";
 
             aiMessages.appendChild(loadingMessage);
 
 
-            aiMessages.scrollTop =
-                aiMessages.scrollHeight;
+            aiMessages.scrollTop = aiMessages.scrollHeight;
 
 
             try {
 
-                console.log(
-                    "Sending request to /api/ai/ask"
-                );
+                console.log("Sending request to /api/ai/ask");
 
-
-                // ==========================================
-                // SEND TO BACKEND
-                // ==========================================
 
                 const response = await fetch(
                     "/api/ai/ask",
                     {
-
                         method: "POST",
 
                         headers: {
-
-                            "Content-Type":
-                                "application/json"
-
+                            "Content-Type": "application/json"
                         },
 
                         body: JSON.stringify({
-
                             message: message,
-
                             code: code
-
                         })
-
                     }
                 );
 
 
                 console.log(
-                    "Response status:",
+                    "AI response status:",
                     response.status
                 );
 
 
-                const answer =
-                    await response.text();
+                const answer = await response.text();
 
 
                 console.log(
@@ -1054,30 +2630,15 @@
                 }
 
 
-                // ==========================================
-                // FORMAT AI RESPONSE
-                // ==========================================
-
+                // Display AI response
                 loadingMessage.innerHTML = `
-
-                <div class="ai-response">
-
-                    🤖
-
-                    ${formatAIResponse(answer)}
-
-                </div>
-
-            `;
-
-
-                // ==========================================
-                // COPY BUTTONS
-                // ==========================================
-
+    <div class="ai-response">
+        🤖 ${formatAIResponse(answer)}
+    </div>
+`;
                 loadingMessage
                     .querySelectorAll(".ai-copy-btn")
-                    .forEach(button => {
+                    .forEach(function (button) {
 
                         button.addEventListener(
                             "click",
@@ -1085,59 +2646,39 @@
 
                                 const codeBlock =
                                     button
-                                        .closest(
-                                            ".ai-code-block"
-                                        )
+                                        .closest(".ai-code-block")
                                         .querySelector("code");
 
                                 navigator.clipboard
-                                    .writeText(
-                                        codeBlock.innerText
-                                    );
+                                    .writeText(codeBlock.innerText);
 
-                                button.innerText =
-                                    "Copied!";
+                                button.textContent = "Copied!";
 
-                                setTimeout(
-                                    function () {
-
-                                        button.innerText =
-                                            "Copy";
-
-                                    },
-                                    1500
-                                );
+                                setTimeout(function () {
+                                    button.textContent = "Copy";
+                                }, 1500);
 
                             }
                         );
 
                     });
 
-
-            }
-            catch (error) {
+            } catch (error) {
 
                 console.error(
-                    "AI ERROR:",
+                    "TaskFlow AI Error:",
                     error
                 );
 
 
-                loadingMessage.innerHTML = `
-
-                ❌ <strong>AI connection failed.</strong>
-
-                <br><br>
-
-                ${error.message}
-
-            `;
+                loadingMessage.textContent =
+                    "❌ AI connection failed: " +
+                    error.message;
 
             }
 
 
             aiInput.value = "";
-
 
             aiMessages.scrollTop =
                 aiMessages.scrollHeight;
@@ -1145,10 +2686,7 @@
         });
 
 
-        // ==========================================
-        // EXPLAIN CODE
-        // ==========================================
-
+        // Explain Code
         document.getElementById(
             "explainCodeBtn"
         ).addEventListener(
@@ -1164,10 +2702,7 @@
         );
 
 
-        // ==========================================
-        // GENERATE CODE
-        // ==========================================
-
+        // Generate Code
         document.getElementById(
             "generateCodeBtn"
         ).addEventListener(
@@ -1183,10 +2718,7 @@
         );
 
 
-        // ==========================================
-        // DEBUG CODE
-        // ==========================================
-
+        // Debug Code
         document.getElementById(
             "debugCodeBtn"
         ).addEventListener(
@@ -1202,10 +2734,7 @@
         );
 
 
-        // ==========================================
-        // DOCUMENTATION
-        // ==========================================
-
+        // Documentation
         document.getElementById(
             "documentationBtn"
         ).addEventListener(
@@ -1220,13 +2749,9 @@
             }
         );
 
-
     });
 
 </script>
-
-
-
 </body>
 
 </html>

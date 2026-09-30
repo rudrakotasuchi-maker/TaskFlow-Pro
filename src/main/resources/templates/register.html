@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 
 <html lang="en"
@@ -5,7 +6,6 @@
 
 <head>
 
-    ```
     <meta charset="UTF-8">
 
     <meta name="viewport"
@@ -263,6 +263,21 @@
             margin-top: 17px;
         }
 
+        .role-info {
+            background: #f3f6ff;
+            border-left: 4px solid #2563eb;
+
+            padding: 10px 12px;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+
+            color: #4b5563;
+
+            margin-bottom: 18px;
+        }
+
         @media (max-width: 500px) {
 
             .register-wrapper {
@@ -280,7 +295,6 @@
         }
 
     </style>
-    ```
 
 </head>
 
@@ -288,7 +302,6 @@
 
 <div class="register-wrapper">
 
-    ```
     <!-- BRAND -->
 
     <div class="brand">
@@ -319,7 +332,7 @@
             </h2>
 
             <p>
-                Start collaborating with your project team.
+                Choose your role and enter your details.
             </p>
 
         </div>
@@ -329,6 +342,50 @@
 
             <form th:action="@{/auth/register}"
                   method="post">
+
+                <!-- ROLE -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        <i class="bi bi-people"></i>
+
+                        Role
+
+                    </label>
+
+                    <select id="role"
+                            name="role"
+                            class="form-select"
+                            required>
+
+                        <option value="STUDENT">
+                            Student
+                        </option>
+
+                        <option value="FACULTY">
+                            Faculty
+                        </option>
+
+                        <option value="ADMIN">
+                            Admin
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- ROLE INFORMATION -->
+
+                <div id="roleInfo"
+                     class="role-info">
+
+                    Student account: enter your academic details.
+
+                </div>
+
 
                 <!-- FULL NAME -->
 
@@ -347,6 +404,143 @@
                            name="fullName"
                            placeholder="Enter your full name"
                            required>
+
+                </div>
+
+
+                <!-- STUDENT FIELDS -->
+
+                <div id="studentFields">
+
+
+                    <!-- REGISTER NUMBER -->
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+
+                            <i class="bi bi-card-text"></i>
+
+                            Register Number
+
+                        </label>
+
+                        <input type="text"
+                               id="registerNumber"
+                               class="form-control"
+                               name="registerNumber"
+                               placeholder="Enter your register number">
+
+                    </div>
+
+
+                    <!-- BRANCH -->
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+
+                            <i class="bi bi-mortarboard"></i>
+
+                            Branch
+
+                        </label>
+
+                        <input type="text"
+                               id="branch"
+                               class="form-control"
+                               name="branch"
+                               placeholder="Example: AI & DS">
+
+                    </div>
+
+
+                    <!-- YEAR -->
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+
+                            <i class="bi bi-calendar3"></i>
+
+                            Year
+
+                        </label>
+
+                        <select id="year"
+                                name="year"
+                                class="form-select">
+
+                            <option value="">
+                                Select Year
+                            </option>
+
+                            <option value="I B.Tech">
+                                I B.Tech
+                            </option>
+
+                            <option value="II B.Tech">
+                                II B.Tech
+                            </option>
+
+                            <option value="III B.Tech">
+                                III B.Tech
+                            </option>
+
+                            <option value="IV B.Tech">
+                                IV B.Tech
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- SECTION -->
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+
+                            <i class="bi bi-people"></i>
+
+                            Section
+
+                        </label>
+
+                        <input type="text"
+                               id="section"
+                               class="form-control"
+                               name="section"
+                               placeholder="Example: A">
+
+                    </div>
+
+                </div>
+
+
+                <!-- FACULTY FIELD -->
+
+                <div id="facultyFields"
+                     style="display: none;">
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+
+                            <i class="bi bi-building"></i>
+
+                            Department
+
+                        </label>
+
+                        <input type="text"
+                               id="department"
+                               class="form-control"
+                               name="department"
+                               placeholder="Example: AI & DS">
+
+                    </div>
 
                 </div>
 
@@ -393,39 +587,7 @@
                 </div>
 
 
-                <!-- ROLE -->
-
-                <div class="mb-3">
-
-                    <label class="form-label">
-
-                        <i class="bi bi-people"></i>
-
-                        Role
-
-                    </label>
-
-                    <select name="role"
-                            class="form-select">
-
-                        <option value="ADMIN">
-                            Admin
-                        </option>
-
-                        <option value="MANAGER">
-                            Manager
-                        </option>
-
-                        <option value="EMPLOYEE">
-                            Employee
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <!-- REGISTER -->
+                <!-- REGISTER BUTTON -->
 
                 <button type="submit"
                         class="btn btn-primary w-100 register-btn">
@@ -438,6 +600,8 @@
 
             </form>
 
+
+            <!-- LOGIN -->
 
             <p class="login-text">
 
@@ -454,15 +618,132 @@
     </div>
 
 
+    <!-- FOOTER -->
+
     <div class="footer-text">
 
         TaskFlow Pro • Build. Collaborate. Deliver.
 
     </div>
-    ```
 
 </div>
+
+
+<!-- ROLE SWITCHING SCRIPT -->
+
+<script>
+
+    const roleSelect =
+        document.getElementById("role");
+
+    const studentFields =
+        document.getElementById("studentFields");
+
+    const facultyFields =
+        document.getElementById("facultyFields");
+
+    const roleInfo =
+        document.getElementById("roleInfo");
+
+
+    const registerNumber =
+        document.getElementById("registerNumber");
+
+    const branch =
+        document.getElementById("branch");
+
+    const year =
+        document.getElementById("year");
+
+    const section =
+        document.getElementById("section");
+
+    const department =
+        document.getElementById("department");
+
+
+    function updateRoleFields() {
+
+        const role = roleSelect.value;
+
+
+        if (role === "STUDENT") {
+
+            studentFields.style.display = "block";
+
+            facultyFields.style.display = "none";
+
+            registerNumber.required = true;
+
+            branch.required = true;
+
+            year.required = true;
+
+            section.required = true;
+
+            department.required = false;
+
+            roleInfo.innerText =
+                "Student account: enter your academic details.";
+
+        }
+
+        else if (role === "FACULTY") {
+
+            studentFields.style.display = "none";
+
+            facultyFields.style.display = "block";
+
+            registerNumber.required = false;
+
+            branch.required = false;
+
+            year.required = false;
+
+            section.required = false;
+
+            department.required = true;
+
+            roleInfo.innerText =
+                "Faculty account: enter your department.";
+
+        }
+
+        else {
+
+            studentFields.style.display = "none";
+
+            facultyFields.style.display = "none";
+
+            registerNumber.required = false;
+
+            branch.required = false;
+
+            year.required = false;
+
+            section.required = false;
+
+            department.required = false;
+
+            roleInfo.innerText =
+                "Admin account: enter your basic account details.";
+
+        }
+
+    }
+
+
+    roleSelect.addEventListener(
+        "change",
+        updateRoleFields
+    );
+
+
+    updateRoleFields();
+
+</script>
 
 </body>
 
 </html>
+

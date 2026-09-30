@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Learning & Career | TaskFlow Pro</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+
+            background:
+                    radial-gradient(
+                            circle at 10% 10%,
+                            rgba(37, 99, 235, 0.10),
+                            transparent 30%
+                    ),
+                    radial-gradient(
+                            circle at 90% 90%,
+                            rgba(124, 58, 237, 0.10),
+                            transparent 30%
+                    ),
+                    #f4f7fb;
+
+            color: #172554;
+        }
+
+        .page-wrapper {
+            max-width: 1100px;
+            margin: auto;
+            padding: 45px 20px;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        .page-header {
+            margin-top: 20px;
+            margin-bottom: 35px;
+        }
+
+        .page-header h1 {
+            font-size: 34px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: #64748b;
+            font-size: 16px;
+        }
+
+        .learning-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            height: 100%;
+
+            border: 1px solid #e5e7eb;
+
+            box-shadow:
+                    0 12px 35px rgba(15, 23, 42, 0.08);
+
+            transition: 0.25s ease;
+        }
+
+        .learning-card:hover {
+            transform: translateY(-5px);
+
+            box-shadow:
+                    0 18px 40px rgba(15, 23, 42, 0.12);
+        }
+
+        .icon-box {
+            width: 62px;
+            height: 62px;
+
+            border-radius: 16px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 28px;
+
+            margin-bottom: 20px;
+        }
+
+        .platform-icon {
+            background: #e0edff;
+            color: #2563eb;
+        }
+
+        .academy-icon {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .learning-card h2 {
+            font-size: 23px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .learning-card p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        .tag {
+            display: inline-block;
+
+            padding: 6px 11px;
+
+            margin: 5px 4px 5px 0;
+
+            border-radius: 20px;
+
+            background: #f1f5f9;
+
+            color: #475569;
+
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .academy-flow {
+            margin-top: 20px;
+        }
+
+        .flow-step {
+            display: inline-block;
+
+            padding: 8px 12px;
+
+            margin: 4px;
+
+            border-radius: 9px;
+
+            background: #f0fdf4;
+
+            color: #15803d;
+
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .card-btn {
+            margin-top: 20px;
+
+            border-radius: 10px;
+
+            padding: 10px 20px;
+
+            font-weight: 600;
+        }
+
+        .coming-soon {
+            margin-top: 40px;
+
+            padding: 25px;
+
+            border-radius: 18px;
+
+            background: white;
+
+            border: 1px dashed #cbd5e1;
+
+            text-align: center;
+        }
+
+        .coming-soon h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .coming-soon p {
+            margin: 0;
+            color: #64748b;
+        }
+
+        @media (max-width: 768px) {
+
+            .page-header h1 {
+                font-size: 28px;
+            }
+
+            .learning-card {
+                padding: 24px;
+            }
+
+        }
+
+    </style>
+
+
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <a href="/" class="back-link">
+        <i class="bi bi-arrow-left"></i>
+        Back to Dashboard
+    </a>
+
+
+    <!-- PAGE HEADER -->
+
+    <div class="page-header">
+
+        <h1>
+            🎓 Learning & Career
+        </h1>
+
+        <p>
+            Learn new skills, practice coding, build projects
+            and prepare for your career.
+        </p>
+
+    </div>
+
+
+    <!-- MAIN MODULES -->
+
+    <div class="row g-4">
+
+
+        <!-- LEARNING PLATFORMS -->
+
+        <div class="col-lg-6">
+
+            <div class="learning-card">
+
+                <div class="icon-box platform-icon">
+
+                    <i class="bi bi-book"></i>
+
+                </div>
+
+                <h2>
+                    📚 Learning Platforms
+                </h2>
+
+                <p>
+                    Discover useful learning resources from
+                    trusted platforms and documentation.
+                </p>
+
+
+                <div>
+
+                <span class="tag">
+                    GeeksforGeeks
+                </span>
+
+                    <span class="tag">
+                    LeetCode
+                </span>
+
+                    <span class="tag">
+                    YouTube
+                </span>
+
+                    <span class="tag">
+                    Coursera
+                </span>
+
+                    <span class="tag">
+                    NPTEL
+                </span>
+
+                    <span class="tag">
+                    W3Schools
+                </span>
+
+                    <span class="tag">
+                    freeCodeCamp
+                </span>
+
+                    <span class="tag">
+                    Documentation
+                </span>
+
+                </div>
+
+
+                <p class="mt-3 mb-0">
+
+                    <strong>Topics:</strong>
+
+                    Programming • DSA • AI/ML • Web Development
+                    • DBMS • OS • CN • Cloud • Placements
+
+                </p>
+
+
+                <a href="/learning/platforms"
+                   class="btn btn-primary card-btn">
+
+                    <i class="bi bi-compass me-1"></i>
+
+                    Explore Platforms
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- TASKFLOW CODING ACADEMY -->
+
+        <div class="col-lg-6">
+
+            <div class="learning-card">
+
+                <div class="icon-box academy-icon">
+
+                    <i class="bi bi-code-slash"></i>
+
+                </div>
+
+                <h2>
+                    🚀 TaskFlow Coding Academy
+                </h2>
+
+                <p>
+                    A structured coding journey inside TaskFlow
+                    to learn concepts, solve problems and build
+                    real projects.
+                </p>
+
+
+                <div class="academy-flow">
+
+                <span class="flow-step">
+                    Learn
+                </span>
+
+                    →
+
+                    <span class="flow-step">
+                    Practice
+                </span>
+
+                    →
+
+                    <span class="flow-step">
+                    Code
+                </span>
+
+                    →
+
+                    <span class="flow-step">
+                    Optimize
+                </span>
+
+                    →
+
+                    <span class="flow-step">
+                    Build
+                </span>
+
+                    →
+
+                    <span class="flow-step">
+                    Test
+                </span>
+
+                    →
+
+                    <span class="flow-step">
+                    Track
+                </span>
+
+                </div>
+
+
+                <p class="mt-3 mb-0">
+
+                    <strong>Coming journey:</strong>
+
+                    DSA Roadmap • Weekly Coding Tests
+                    • Interview Problems • Mini Projects
+                    • Skill Tracking
+
+                </p>
+
+
+                <a href="/learning/academy"
+                   class="btn btn-success card-btn">
+
+                    <i class="bi bi-rocket-takeoff me-1"></i>
+
+                    Start Learning
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FUTURE MODULES -->
+
+    <div class="coming-soon">
+
+        <h3>
+            🌟 More Career Features Coming Soon
+        </h3>
+
+        <p>
+            DSA Roadmap • Interview Preparation • My Skills
+            • Weekly Tests • Leaderboard • Coding Championship
+        </p>
+
+    </div>
+
+
+</div>
+
+</body>
+
+</html>

@@ -1,3 +1,4 @@
+
 package com.taskflow.taskflowpro.security;
 
 import com.taskflow.taskflowpro.service.CustomUserDetailsService;
@@ -31,15 +32,44 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http) throws Exception {
 
         http
                 .csrf(csrf -> csrf.disable())
+
                 .userDetailsService(userDetailsService)
+
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/auth/**", "/css/**", "/js/**").permitAll()
+
+                        // Public pages
+                        .requestMatchers(
+                                "/auth/**",
+                                "/css/**",
+                                "/js/**"
+                        ).permitAll()
+
+                        // Faculty and Admin only
+                        .requestMatchers(
+                                "/assignments/create",
+                                "/assignments/save",
+                                "/assignments/delete/**",
+                                "/assignments/*/submissions",
+                                "/assignments/submissions/*",
+                                "/assignments/submissions/*/evaluate",
+                                "/assignments/submissions/*/download"
+                        ).hasAnyRole("FACULTY", "ADMIN")
+
+                        // Students, Faculty and Admin
+                        // can view/use normal assignment pages
+                        .requestMatchers(
+                                "/assignments/**"
+                        ).authenticated()
+
+                        // Everything else requires login
                         .anyRequest().authenticated()
                 )
+
                 .formLogin(form -> form
                         .loginPage("/auth/login")
                         .loginProcessingUrl("/login")
@@ -48,6 +78,7 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/")
                         .permitAll()
                 )
+
                 .logout(logout -> logout
                         .logoutSuccessUrl("/auth/login?logout")
                         .permitAll()

@@ -1,7 +1,9 @@
+
 // =====================================================
 // TASKFLOW STUDIO
 // studio.js
 // Monaco Editor + File Explorer + File Management
+// Terminal + Resizers
 // =====================================================
 
 require.config({
@@ -24,6 +26,7 @@ require(["vs/editor/editor.main"], function () {
 
     let files = [];
     let currentFileId = null;
+    let autoSaveTimer = null;
 
 
     // =================================================
@@ -47,45 +50,6 @@ require(["vs/editor/editor.main"], function () {
     );
 
     console.log("Monaco editor created");
-    // =================================================
-// AUTO SAVE EDITOR CONTENT
-// =================================================
-
-    let autoSaveTimer = null;
-
-    window.monacoEditor.onDidChangeModelContent(function () {
-
-        if (!currentFileId) {
-            return;
-        }
-
-        const current = files.find(
-            file => file.id == currentFileId
-        );
-
-        if (!current) {
-            return;
-        }
-
-        // Update current file content
-        current.content = window.monacoEditor.getValue();
-
-        // Clear previous auto-save timer
-        clearTimeout(autoSaveTimer);
-
-        // Save automatically 1 second after typing stops
-        autoSaveTimer = setTimeout(function () {
-
-            saveCurrentFile(false);
-
-            console.log(
-                "✅ Auto-saved:",
-                current.fileName
-            );
-
-        }, 1000);
-
-    });
 
 
     // =================================================
@@ -140,6 +104,61 @@ require(["vs/editor/editor.main"], function () {
 
 
     // =================================================
+    // UPDATE CURRENT FILE IN MEMORY
+    // =================================================
+
+    function updateCurrentFileInMemory() {
+
+        if (currentFileId === null) {
+            return;
+        }
+
+        const currentFile =
+            files.find(function (file) {
+
+                return String(file.id) ===
+                    String(currentFileId);
+
+            });
+
+        if (!currentFile) {
+            return;
+        }
+
+        currentFile.content =
+            window.monacoEditor.getValue();
+    }
+
+
+    // =================================================
+    // AUTO SAVE
+    // =================================================
+
+    window.monacoEditor.onDidChangeModelContent(
+        function () {
+
+            if (!currentFileId) {
+                return;
+            }
+
+            updateCurrentFileInMemory();
+
+            clearTimeout(autoSaveTimer);
+
+            autoSaveTimer = setTimeout(
+                function () {
+
+                    saveCurrentFile(false);
+
+                },
+                1000
+            );
+
+        }
+    );
+
+
+    // =================================================
     // OPEN FILE
     // =================================================
 
@@ -149,15 +168,20 @@ require(["vs/editor/editor.main"], function () {
             return;
         }
 
-        console.log("Opening file:", file.fileName);
+        console.log(
+            "Opening file:",
+            file.fileName
+        );
 
-        currentFileId = file.id;
+        currentFileId =
+            file.id;
 
         window.monacoEditor.setValue(
             file.content || ""
         );
 
-        const language = getLanguage(file.fileName);
+        const language =
+            getLanguage(file.fileName);
 
         monaco.editor.setModelLanguage(
             window.monacoEditor.getModel(),
@@ -182,41 +206,49 @@ require(["vs/editor/editor.main"], function () {
     function renderExplorer() {
 
         const explorer =
-            document.getElementById("fileExplorer");
+            document.getElementById(
+                "fileExplorer"
+            );
 
         if (!explorer) {
+
             console.error(
                 "fileExplorer element not found"
             );
+
             return;
         }
 
         explorer.innerHTML = "";
 
 
-        // ---------------------------------------------
+        // =================================================
         // FILE LIST
-        // ---------------------------------------------
+        // =================================================
 
         files.forEach(function (file) {
 
             const fileElement =
                 document.createElement("div");
 
-            fileElement.className = "file-item";
+            fileElement.className =
+                "file-item";
 
-            fileElement.dataset.id = file.id;
+            fileElement.dataset.id =
+                file.id;
 
             fileElement.innerHTML =
                 "📄 " + file.fileName;
+
 
             fileElement.addEventListener(
                 "click",
                 function () {
 
-                    // Save currently opened file first
                     if (currentFileId !== null) {
+
                         updateCurrentFileInMemory();
+
                     }
 
                     const selectedId =
@@ -225,46 +257,57 @@ require(["vs/editor/editor.main"], function () {
                     const selectedFile =
                         files.find(
                             function (f) {
+
                                 return String(f.id) ===
                                     String(selectedId);
+
                             }
                         );
 
                     if (!selectedFile) {
+
                         console.error(
                             "File not found:",
                             selectedId
                         );
+
                         return;
                     }
 
                     openFile(selectedFile);
+
                 }
             );
 
-            explorer.appendChild(fileElement);
+
+            explorer.appendChild(
+                fileElement
+            );
 
         });
 
 
-        // ---------------------------------------------
+        // =================================================
         // SEPARATOR
-        // ---------------------------------------------
+        // =================================================
 
         const separator =
             document.createElement("hr");
 
-        explorer.appendChild(separator);
+        explorer.appendChild(
+            separator
+        );
 
 
-        // ---------------------------------------------
+        // =================================================
         // NEW FILE BUTTON
-        // ---------------------------------------------
+        // =================================================
 
         const newFileBtn =
             document.createElement("button");
 
-        newFileBtn.id = "newFileBtn";
+        newFileBtn.id =
+            "newFileBtn";
 
         newFileBtn.className =
             "btn btn-success w-100 mb-2";
@@ -272,12 +315,14 @@ require(["vs/editor/editor.main"], function () {
         newFileBtn.innerText =
             "+ New File";
 
-        explorer.appendChild(newFileBtn);
+        explorer.appendChild(
+            newFileBtn
+        );
 
 
-        // ---------------------------------------------
+        // =================================================
         // RENAME BUTTON
-        // ---------------------------------------------
+        // =================================================
 
         const renameFileBtn =
             document.createElement("button");
@@ -291,12 +336,14 @@ require(["vs/editor/editor.main"], function () {
         renameFileBtn.innerText =
             "✏ Rename File";
 
-        explorer.appendChild(renameFileBtn);
+        explorer.appendChild(
+            renameFileBtn
+        );
 
 
-        // ---------------------------------------------
+        // =================================================
         // DELETE BUTTON
-        // ---------------------------------------------
+        // =================================================
 
         const deleteFileBtn =
             document.createElement("button");
@@ -310,12 +357,14 @@ require(["vs/editor/editor.main"], function () {
         deleteFileBtn.innerText =
             "🗑 Delete File";
 
-        explorer.appendChild(deleteFileBtn);
+        explorer.appendChild(
+            deleteFileBtn
+        );
 
 
-        // ---------------------------------------------
-        // BUTTON EVENTS
-        // ---------------------------------------------
+        // =================================================
+        // EVENTS
+        // =================================================
 
         newFileBtn.addEventListener(
             "click",
@@ -335,74 +384,46 @@ require(["vs/editor/editor.main"], function () {
 
 
     // =================================================
-    // UPDATE CURRENT FILE IN MEMORY
-    // =================================================
-
-    function updateCurrentFileInMemory() {
-
-        if (currentFileId === null) {
-            return;
-        }
-
-        const currentFile =
-            files.find(
-                function (file) {
-                    return String(file.id) ===
-                        String(currentFileId);
-                }
-            );
-
-        if (!currentFile) {
-            return;
-        }
-
-        currentFile.content =
-            window.monacoEditor.getValue();
-    }
-
-
-    // =================================================
-    // MONACO CONTENT CHANGE
-    // =================================================
-
-    window.monacoEditor.onDidChangeModelContent(
-        function () {
-
-            updateCurrentFileInMemory();
-
-        }
-    );
-
-
-    // =================================================
     // SAVE CURRENT FILE
     // =================================================
 
-    function saveCurrentFile(showAlert = true) {
+    function saveCurrentFile(
+        showAlert = true
+    ) {
 
         if (currentFileId === null) {
 
             if (showAlert) {
+
                 alert(
                     "Please select a file first."
                 );
+
             }
 
             return;
         }
 
+
         const currentFile =
             files.find(
                 function (file) {
+
                     return String(file.id) ===
                         String(currentFileId);
+
                 }
             );
+
 
         if (!currentFile) {
 
             if (showAlert) {
-                alert("Current file not found.");
+
+                alert(
+                    "Current file not found."
+                );
+
             }
 
             return;
@@ -421,31 +442,40 @@ require(["vs/editor/editor.main"], function () {
         );
 
 
-        fetch("/workspace/save", {
+        fetch(
+            "/workspace/save",
+            {
 
-            method: "POST",
+                method: "POST",
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
 
-            body: JSON.stringify({
+                body: JSON.stringify({
 
-                id: currentFile.id,
+                    id:
+                        currentFile.id,
 
-                fileName: currentFile.fileName,
+                    fileName:
+                        currentFile.fileName,
 
-                content: currentFile.content,
+                    content:
+                        currentFile.content,
 
-                language: currentFile.language,
+                    language:
+                        currentFile.language,
 
-                project: {
-                    id: projectId
-                }
+                    project: {
+                        id:
+                            projectId
+                    }
 
-            })
+                })
 
-        })
+            }
+        )
 
             .then(function (response) {
 
@@ -455,6 +485,7 @@ require(["vs/editor/editor.main"], function () {
                         "Save failed: HTTP " +
                         response.status
                     );
+
                 }
 
                 return response.json();
@@ -468,8 +499,6 @@ require(["vs/editor/editor.main"], function () {
                     savedFile
                 );
 
-
-                // Update ID returned from database
 
                 currentFile.id =
                     savedFile.id;
@@ -495,6 +524,7 @@ require(["vs/editor/editor.main"], function () {
                     error
                 );
 
+
                 if (showAlert) {
 
                     alert(
@@ -505,6 +535,7 @@ require(["vs/editor/editor.main"], function () {
                 }
 
             });
+
     }
 
 
@@ -513,7 +544,10 @@ require(["vs/editor/editor.main"], function () {
     // =================================================
 
     const saveBtn =
-        document.getElementById("saveBtn");
+        document.getElementById(
+            "saveBtn"
+        );
+
 
     if (saveBtn) {
 
@@ -534,7 +568,10 @@ require(["vs/editor/editor.main"], function () {
     // =================================================
 
     const runBtn =
-        document.getElementById("runBtn");
+        document.getElementById(
+            "runBtn"
+        );
+
 
     if (runBtn) {
 
@@ -569,8 +606,10 @@ require(["vs/editor/editor.main"], function () {
         const currentFile =
             files.find(
                 function (file) {
+
                     return String(file.id) ===
                         String(currentFileId);
+
                 }
             );
 
@@ -589,34 +628,16 @@ require(["vs/editor/editor.main"], function () {
             window.monacoEditor.getValue();
 
 
-        const programInput =
+        const inputElement =
             document.getElementById(
                 "consoleInput"
-            ).value;
+            );
 
 
-        console.log(
-            "Language:",
-            currentFile.language
-        );
-
-        console.log(
-            "Program Input:",
-            programInput
-        );
-
-        console.log(
-            "Current File:",
-            currentFile.fileName
-        );
-
-        console.log(
-            "Source Code:"
-        );
-
-        console.log(
-            currentFile.content
-        );
+        const programInput =
+            inputElement
+                ? inputElement.value
+                : "";
 
 
         runBtn.disabled = true;
@@ -648,7 +669,7 @@ require(["vs/editor/editor.main"], function () {
                 },
 
                 body:
-                currentFile.content
+                    currentFile.content
 
             }
         )
@@ -678,21 +699,36 @@ require(["vs/editor/editor.main"], function () {
                 const endTime =
                     Date.now();
 
-                let isError =
-                    output.includes("❌ Compilation Error") ||
-                    output.includes("❌ Runtime Error") ||
-                    output.includes("error:");
 
-                let statusText =
+                const isError =
+                    output.includes(
+                        "❌ Compilation Error"
+                    ) ||
+                    output.includes(
+                        "❌ Runtime Error"
+                    ) ||
+                    output.includes(
+                        "error:"
+                    );
+
+
+                const statusText =
                     isError
                         ? "✗ Program Execution Failed"
                         : "✓ Program Executed Successfully";
 
-                document.getElementById(
-                    "consolePanel"
-                ).innerText =
 
-                    `==========================================
+                const consolePanel =
+                    document.getElementById(
+                        "consolePanel"
+                    );
+
+
+                if (consolePanel) {
+
+                    consolePanel.innerText =
+
+                        `==========================================
 TASKFLOW TERMINAL
 ==========================================
 
@@ -701,11 +737,55 @@ TASKFLOW TERMINAL
 ${output}
 
 ------------------------------------------
-${statusText}
+    ${statusText}
 
 Execution Time : ${endTime - startTime} ms
 
 ==========================================`;
+
+                    consolePanel.scrollTop =
+                        consolePanel.scrollHeight;
+
+                }
+
+
+                runBtn.disabled = false;
+
+                runBtn.innerText =
+                    "▶ Run";
+
+            })
+
+            .catch(function (error) {
+
+                console.error(
+                    "Run error:",
+                    error
+                );
+
+
+                const consolePanel =
+                    document.getElementById(
+                        "consolePanel"
+                    );
+
+
+                if (consolePanel) {
+
+                    consolePanel.innerText =
+
+                        `==========================================
+TASKFLOW TERMINAL
+==========================================
+
+❌ Program Execution Failed
+
+${error.message}
+
+==========================================`;
+
+                }
+
 
                 runBtn.disabled = false;
 
@@ -734,12 +814,6 @@ Execution Time : ${endTime - startTime} ms
 
         .then(function (response) {
 
-            console.log(
-                "Workspace response status:",
-                response.status
-            );
-
-
             if (!response.ok) {
 
                 throw new Error(
@@ -749,7 +823,6 @@ Execution Time : ${endTime - startTime} ms
 
             }
 
-
             return response.json();
 
         })
@@ -757,61 +830,45 @@ Execution Time : ${endTime - startTime} ms
         .then(function (data) {
 
             console.log(
-                "FILES RECEIVED FROM BACKEND:",
+                "FILES RECEIVED:",
                 data
             );
 
 
-            // ---------------------------------------------
-            // Convert database response to local objects
-            // ---------------------------------------------
+            files =
+                data.map(
+                    function (file) {
 
-            files = data.map(
-                function (file) {
+                        return {
 
-                    return {
+                            id:
+                                file.id,
 
-                        id: file.id,
+                            fileName:
+                                file.fileName,
 
-                        fileName:
-                        file.fileName,
+                            language:
+                                file.language,
 
-                        language:
-                        file.language,
+                            content:
+                                file.content || ""
 
-                        content:
-                            file.content || ""
+                        };
 
-                    };
-
-                }
-            );
-
-
-            console.log(
-                "FILES ARRAY:",
-                files
-            );
-
-
-            // ---------------------------------------------
-            // NO FILES IN DATABASE
-            // ---------------------------------------------
-
-            if (files.length === 0) {
-
-                console.log(
-                    "No files found in database."
+                    }
                 );
 
 
-                // Create temporary default file
-                // It will appear in Explorer but
-                // is NOT automatically saved to DB.
+            // =================================================
+            // NO FILES
+            // =================================================
+
+            if (files.length === 0) {
 
                 files.push({
 
-                    id: "temporary-main",
+                    id:
+                        "temporary-main",
 
                     fileName:
                         "Main.java",
@@ -820,13 +877,14 @@ Execution Time : ${endTime - startTime} ms
                         "java",
 
                     content:
-                        `public class Main {
+
+`public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println("Welcome To TaskFlowPro!");
+    System.out.println("Welcome To TaskFlowPro!");
 
-    }
+}
 
 }`
 
@@ -835,16 +893,8 @@ Execution Time : ${endTime - startTime} ms
             }
 
 
-            // ---------------------------------------------
-            // SHOW FILES
-            // ---------------------------------------------
-
             renderExplorer();
 
-
-            // ---------------------------------------------
-            // OPEN FIRST FILE
-            // ---------------------------------------------
 
             if (files.length > 0) {
 
@@ -864,17 +914,25 @@ Execution Time : ${endTime - startTime} ms
             );
 
 
-            document.getElementById(
-                "fileExplorer"
-            ).innerHTML =
+            const explorer =
+                document.getElementById(
+                    "fileExplorer"
+                );
 
-                `<div style="color:#ff6666;">
-                ❌ Failed to load files.
-                <br><br>
-                ${error.message}
-            </div>`;
 
-        });
+            if (explorer) {
+
+                explorer.innerHTML =
+
+                    `<div style="color:#ff6666;">
+                        ❌ Failed to load files.
+<br><br>
+    ${error.message}
+</div>`;
+
+    }
+
+    });
 
 
     // =================================================
@@ -882,9 +940,9 @@ Execution Time : ${endTime - startTime} ms
     // =================================================
 
     const sendInputBtn =
-        document.getElementById(
-            "sendInputBtn"
-        );
+    document.getElementById(
+    "sendInputBtn"
+    );
 
 
     if (sendInputBtn) {
@@ -896,23 +954,38 @@ Execution Time : ${endTime - startTime} ms
                 const input =
                     document.getElementById(
                         "consoleInput"
-                    ).value;
+                    );
 
 
-                if (input.trim() === "") {
+                if (!input) {
                     return;
                 }
 
 
-                document.getElementById(
-                    "consolePanel"
-                ).innerText +=
-                    input + "\n";
+                const value =
+                    input.value;
 
 
-                document.getElementById(
-                    "consoleInput"
-                ).value = "";
+                if (value.trim() === "") {
+                    return;
+                }
+
+
+                const consolePanel =
+                    document.getElementById(
+                        "consolePanel"
+                    );
+
+
+                if (consolePanel) {
+
+                    consolePanel.innerText +=
+                        value + "\n";
+
+                }
+
+
+                input.value = "";
 
             }
         );
@@ -927,126 +1000,120 @@ Execution Time : ${endTime - startTime} ms
     function createNewFile() {
 
         const fileName =
-            prompt(
-                "Enter file name:",
-                "Example.java"
-            );
+        prompt(
+        "Enter file name:",
+        "Example.java"
+        );
 
 
         if (!fileName ||
-            fileName.trim() === "") {
+        fileName.trim() === "") {
 
-            return;
-        }
+        return;
+    }
 
 
         const language =
-            getLanguage(fileName);
+        getLanguage(
+        fileName
+        );
 
 
         fetch(
-            "/workspace/create",
-            {
+        "/workspace/create",
+    {
 
-                method: "POST",
+        method: "POST",
 
-                headers: {
+        headers: {
 
-                    "Content-Type":
-                        "application/json"
+        "Content-Type":
+        "application/json"
 
-                },
+    },
 
-                body: JSON.stringify({
+        body: JSON.stringify({
 
-                    fileName:
-                        fileName.trim(),
+        fileName:
+        fileName.trim(),
 
-                    language:
-                    language,
+        language:
+        language,
 
-                    content:
-                        "",
+        content:
+        "",
 
-                    project: {
+        project: {
 
-                        id:
-                        projectId
+        id:
+        projectId
 
-                    }
+    }
 
-                })
+    })
 
-            }
+    }
         )
 
-            .then(function (response) {
+        .then(function (response) {
 
-                if (!response.ok) {
+        if (!response.ok) {
 
-                    throw new Error(
-                        "File creation failed. HTTP " +
-                        response.status
-                    );
+        throw new Error(
+        "File creation failed. HTTP " +
+        response.status
+        );
 
-                }
+    }
 
-                return response.json();
+        return response.json();
 
-            })
+    })
 
-            .then(function (file) {
+        .then(function (file) {
 
-                console.log(
-                    "Created file:",
-                    file
-                );
+        files.push({
 
+        id:
+        file.id,
 
-                files.push({
+        fileName:
+        file.fileName,
 
-                    id:
-                    file.id,
+        language:
+        file.language,
 
-                    fileName:
-                    file.fileName,
+        content:
+        file.content || ""
 
-                    language:
-                    file.language,
-
-                    content:
-                        file.content || ""
-
-                });
+    });
 
 
-                renderExplorer();
+        renderExplorer();
 
-                openFile(
-                    file
-                );
+        openFile(file);
 
 
-                alert(
-                    "✅ File Created Successfully!"
-                );
+        alert(
+        "✅ File Created Successfully!"
+        );
 
-            })
+    })
 
-            .catch(function (error) {
+        .catch(function (error) {
 
-                console.error(
-                    "Create file error:",
-                    error
-                );
+        console.error(
+        "Create file error:",
+        error
+        );
 
 
-                alert(
-                    "❌ File Creation Failed!\n\n" +
-                    error.message
-                );
+        alert(
+        "❌ File Creation Failed!\n\n" +
+        error.message
+        );
 
-            });
+    });
 
     }
 
@@ -1059,148 +1126,147 @@ Execution Time : ${endTime - startTime} ms
 
         if (currentFileId === null) {
 
-            alert(
-                "Please select a file first."
-            );
+        alert(
+        "Please select a file first."
+        );
 
-            return;
-        }
+        return;
+    }
 
 
         const currentFile =
-            files.find(
-                function (file) {
+        files.find(
+        function (file) {
 
-                    return String(file.id) ===
-                        String(currentFileId);
+        return String(file.id) ===
+        String(currentFileId);
 
-                }
-            );
+    }
+        );
 
 
         if (!currentFile) {
-
-            return;
-        }
+        return;
+    }
 
 
         const newFileName =
-            prompt(
-                "Enter new file name:",
-                currentFile.fileName
-            );
+        prompt(
+        "Enter new file name:",
+        currentFile.fileName
+        );
 
 
         if (!newFileName ||
-            newFileName.trim() === "") {
+        newFileName.trim() === "") {
 
-            return;
-        }
+        return;
+    }
 
 
         currentFile.fileName =
-            newFileName.trim();
+        newFileName.trim();
 
 
         currentFile.language =
-            getLanguage(
-                currentFile.fileName
-            );
+        getLanguage(
+        currentFile.fileName
+        );
 
 
         currentFile.content =
-            window.monacoEditor.getValue();
+        window.monacoEditor.getValue();
 
 
         fetch(
-            "/workspace/save",
-            {
+        "/workspace/save",
+    {
 
-                method: "POST",
+        method: "POST",
 
-                headers: {
+        headers: {
 
-                    "Content-Type":
-                        "application/json"
+        "Content-Type":
+        "application/json"
 
-                },
+    },
 
-                body: JSON.stringify({
+        body: JSON.stringify({
 
-                    id:
-                    currentFile.id,
+        id:
+        currentFile.id,
 
-                    fileName:
-                    currentFile.fileName,
+        fileName:
+        currentFile.fileName,
 
-                    content:
-                    currentFile.content,
+        content:
+        currentFile.content,
 
-                    language:
-                    currentFile.language,
+        language:
+        currentFile.language,
 
-                    project: {
+        project: {
 
-                        id:
-                        projectId
+        id:
+        projectId
 
-                    }
+    }
 
-                })
+    })
 
-            }
+    }
         )
 
-            .then(function (response) {
+        .then(function (response) {
 
-                if (!response.ok) {
+        if (!response.ok) {
 
-                    throw new Error(
-                        "Rename failed."
-                    );
+        throw new Error(
+        "Rename failed."
+        );
 
-                }
+    }
 
-                return response.json();
+        return response.json();
 
-            })
+    })
 
-            .then(function (updatedFile) {
+        .then(function (updatedFile) {
 
-                currentFile.id =
-                    updatedFile.id;
+        currentFile.id =
+        updatedFile.id;
 
-                currentFileId =
-                    updatedFile.id;
-
-
-                renderExplorer();
-
-                openFile(
-                    currentFile
-                );
+        currentFileId =
+        updatedFile.id;
 
 
-                alert(
-                    "✅ File Renamed Successfully!"
-                );
+        renderExplorer();
 
-            })
-
-            .catch(function (error) {
-
-                console.error(
-                    "Rename error:",
-                    error
-                );
+        openFile(
+        currentFile
+        );
 
 
-                alert(
-                    "❌ Rename Failed!\n\n" +
-                    error.message
-                );
+        alert(
+        "✅ File Renamed Successfully!"
+        );
 
-            });
+    })
+
+        .catch(function (error) {
+
+        console.error(
+        "Rename error:",
+        error
+        );
+
+
+        alert(
+        "❌ Rename Failed!\n\n" +
+        error.message
+        );
+
+    });
 
     }
 
@@ -1213,180 +1279,813 @@ Execution Time : ${endTime - startTime} ms
 
         if (currentFileId === null) {
 
-            alert(
-                "Please select a file."
-            );
+        alert(
+        "Please select a file."
+        );
 
-            return;
-        }
+        return;
+    }
 
 
         const currentFile =
-            files.find(
-                function (file) {
+        files.find(
+        function (file) {
 
-                    return String(file.id) ===
-                        String(currentFileId);
+        return String(file.id) ===
+        String(currentFileId);
 
-                }
-            );
+    }
+        );
 
 
         if (!currentFile) {
-
-            return;
-        }
+        return;
+    }
 
 
         // Temporary file
 
         if (
-            typeof currentFile.id === "string"
+        typeof currentFile.id ===
+        "string"
         ) {
 
-            files =
-                files.filter(
-                    function (file) {
+        files =
+        files.filter(
+        function (file) {
 
-                        return file !==
-                            currentFile;
+        return file !==
+        currentFile;
 
-                    }
-                );
-
-
-            currentFileId =
-                null;
+    }
+        );
 
 
-            renderExplorer();
+        currentFileId =
+        null;
 
 
-            window.monacoEditor.setValue(
-                ""
-            );
+        renderExplorer();
 
 
-            return;
-        }
+        window.monacoEditor.setValue(
+        ""
+        );
+
+
+        return;
+    }
 
 
         const confirmed =
-            confirm(
-                "Are you sure you want to delete " +
-                currentFile.fileName +
-                "?"
-            );
+        confirm(
+        "Are you sure you want to delete " +
+        currentFile.fileName +
+        "?"
+        );
 
 
         if (!confirmed) {
-
-            return;
-        }
+        return;
+    }
 
 
         fetch(
-            "/workspace/" +
-            currentFile.id,
-            {
+        "/workspace/" +
+        currentFile.id,
+    {
 
-                method:
-                    "DELETE"
+        method:
+        "DELETE"
 
-            }
+    }
         )
 
-            .then(function (response) {
+        .then(function (response) {
 
-                if (!response.ok) {
+        if (!response.ok) {
 
-                    throw new Error(
-                        "Delete failed. HTTP " +
-                        response.status
-                    );
+        throw new Error(
+        "Delete failed. HTTP " +
+        response.status
+        );
 
-                }
+    }
 
-            })
+    })
 
-            .then(function () {
+        .then(function () {
 
-                files =
-                    files.filter(
-                        function (file) {
+        files =
+        files.filter(
+        function (file) {
 
-                            return String(file.id) !==
-                                String(currentFile.id);
+        return String(file.id) !==
+        String(currentFile.id);
 
-                        }
-                    );
-
-
-                currentFileId =
-                    null;
+    }
+        );
 
 
-                renderExplorer();
+        currentFileId =
+        null;
 
 
-                if (files.length > 0) {
-
-                    openFile(
-                        files[0]
-                    );
-
-                } else {
-
-                    window.monacoEditor.setValue(
-                        ""
-                    );
-
-                }
+        renderExplorer();
 
 
-                alert(
-                    "✅ File Deleted Successfully!"
-                );
+        if (files.length > 0) {
 
-            })
+        openFile(
+        files[0]
+        );
 
-            .catch(function (error) {
+    } else {
 
-                console.error(
-                    "Delete error:",
-                    error
-                );
-
-
-                alert(
-                    "❌ Delete Failed!\n\n" +
-                    error.message
-                );
-
-            });
+        window.monacoEditor.setValue(
+        ""
+        );
 
     }
 
 
-    // =================================================
-    // AI SUPPORT
-    // =================================================
+        alert(
+        "✅ File Deleted Successfully!"
+        );
 
-    // IMPORTANT:
-    // AIController should use:
-    //
-    // window.monacoEditor.getValue()
-    //
-    // Do NOT use:
-    //
-    // editor.getValue()
-    //
-    // because this file does not create a global
-    // variable called editor.
+    })
+
+        .catch(function (error) {
+
+        console.error(
+        "Delete error:",
+        error
+        );
+
+
+        alert(
+        "❌ Delete Failed!\n\n" +
+        error.message
+        );
+
+    });
+
+    }
 
 
     console.log(
-        "TaskFlow Studio initialization completed."
+    "TaskFlow Studio initialization completed."
     );
 
-});
+    });
+
+
+    // =====================================================
+    // TASKFLOW TERMINAL RESIZER
+    // =====================================================
+
+    (function setupTerminalResizer() {
+
+        const developmentArea =
+        document.querySelector(
+        ".development-area"
+        );
+
+        const terminalArea =
+        document.getElementById(
+        "terminalArea"
+        );
+
+        const resizer =
+        document.getElementById(
+        "terminalResizer"
+        );
+
+
+        if (
+        !developmentArea ||
+        !terminalArea ||
+        !resizer
+        ) {
+
+        console.warn(
+        "TaskFlow terminal resizer elements not found."
+        );
+
+        return;
+    }
+
+
+        let isResizing = false;
+
+
+        // =================================================
+        // START
+        // =================================================
+
+        resizer.addEventListener(
+        "pointerdown",
+        function (event) {
+
+        isResizing = true;
+
+        resizer.setPointerCapture(
+        event.pointerId
+        );
+
+        document.body.classList.add(
+        "terminal-resizing"
+        );
+
+        event.preventDefault();
+
+    }
+        );
+
+
+        // =================================================
+        // DRAG
+        // =================================================
+
+        resizer.addEventListener(
+        "pointermove",
+        function (event) {
+
+        if (!isResizing) {
+        return;
+    }
+
+
+        const rect =
+        developmentArea.getBoundingClientRect();
+
+
+        let terminalHeight =
+        rect.bottom -
+        event.clientY;
+
+
+        const MIN_TERMINAL_HEIGHT =
+        140;
+
+
+        const MAX_TERMINAL_HEIGHT =
+        rect.height * 0.75;
+
+
+        terminalHeight =
+        Math.max(
+        MIN_TERMINAL_HEIGHT,
+        Math.min(
+        terminalHeight,
+        MAX_TERMINAL_HEIGHT
+        )
+        );
+
+
+        developmentArea.style.setProperty(
+        "--terminal-height",
+        terminalHeight + "px"
+        );
+
+
+        // IMPORTANT:
+        // Your Monaco editor is stored as
+        // window.monacoEditor
+
+        if (
+        window.monacoEditor &&
+        typeof window.monacoEditor.layout ===
+        "function"
+        ) {
+
+        requestAnimationFrame(
+        function () {
+
+        window.monacoEditor.layout();
+
+    }
+        );
+
+    }
+
+    }
+        );
+
+
+        // =================================================
+        // STOP
+        // =================================================
+
+        function stopResizing(event) {
+
+        if (!isResizing) {
+        return;
+    }
+
+
+        isResizing = false;
+
+
+        document.body.classList.remove(
+        "terminal-resizing"
+        );
+
+
+        try {
+
+        resizer.releasePointerCapture(
+        event.pointerId
+        );
+
+    } catch (error) {
+        // Ignore
+    }
+
+    }
+
+
+        resizer.addEventListener(
+        "pointerup",
+        stopResizing
+        );
+
+
+        resizer.addEventListener(
+        "pointercancel",
+        stopResizing
+        );
+
+
+        // =================================================
+        // DOUBLE CLICK RESET
+        // =================================================
+
+        resizer.addEventListener(
+        "dblclick",
+        function () {
+
+        developmentArea.style.setProperty(
+        "--terminal-height",
+        "270px"
+        );
+
+
+        if (
+        window.monacoEditor &&
+        typeof window.monacoEditor.layout ===
+        "function"
+        ) {
+
+        requestAnimationFrame(
+        function () {
+
+        window.monacoEditor.layout();
+
+    }
+        );
+
+    }
+
+    }
+        );
+
+
+        // =================================================
+        // CLEAR TERMINAL
+        // =================================================
+
+        const clearTerminalBtn =
+        document.getElementById(
+        "clearTerminalBtn"
+        );
+
+
+        if (clearTerminalBtn) {
+
+        clearTerminalBtn.addEventListener(
+        "click",
+        function () {
+
+        const consolePanel =
+        document.getElementById(
+        "consolePanel"
+        );
+
+
+        if (consolePanel) {
+
+        consolePanel.innerHTML = `
+
+                        <div class="terminal-welcome">
+
+                            <div class="terminal-brand">
+                                TASKFLOW TERMINAL
+                            </div>
+
+                            <div class="terminal-status">
+                                ● Ready
+                            </div>
+
+                            <div class="terminal-line">
+                                Terminal cleared.
+                            </div>
+
+                        </div>
+
+                    `;
+
+    }
+
+    }
+        );
+
+    }
+
+
+        // =================================================
+        // MAXIMIZE TERMINAL
+        // =================================================
+
+        const maximizeTerminalBtn =
+        document.getElementById(
+        "maximizeTerminalBtn"
+        );
+
+
+        if (maximizeTerminalBtn) {
+
+        maximizeTerminalBtn.addEventListener(
+        "click",
+        function () {
+
+        developmentArea.classList.toggle(
+        "terminal-maximized"
+        );
+
+
+        if (
+        developmentArea.classList.contains(
+        "terminal-maximized"
+        )
+        ) {
+
+        maximizeTerminalBtn.innerText =
+        "🗗";
+
+    } else {
+
+        maximizeTerminalBtn.innerText =
+        "⛶";
+
+    }
+
+
+        if (
+        window.monacoEditor &&
+        typeof window.monacoEditor.layout ===
+        "function"
+        ) {
+
+        setTimeout(
+        function () {
+
+        window.monacoEditor.layout();
+
+    },
+        50
+        );
+
+    }
+
+    }
+        );
+
+    }
+
+
+        console.log(
+        "TaskFlow Terminal Resizer loaded successfully."
+        );
+
+
+        // =====================================================
+        // TASKFLOW SIDE PANEL RESIZERS
+        // =====================================================
+
+        (function setupSidePanelResizers() {
+
+        const mainLayout =
+        document.querySelector(
+        ".main-layout"
+        );
+
+        const sidebar =
+        document.querySelector(
+        ".sidebar"
+        );
+
+        const aiPanel =
+        document.querySelector(
+        ".ai-panel"
+        );
+
+        const explorerResizer =
+        document.getElementById(
+        "explorerResizer"
+        );
+
+        const aiResizer =
+        document.getElementById(
+        "aiResizer"
+        );
+
+
+        if (
+        !mainLayout ||
+        !sidebar ||
+        !aiPanel ||
+        !explorerResizer ||
+        !aiResizer
+        ) {
+
+        console.warn(
+        "TaskFlow side panel resizers not found."
+        );
+
+        return;
+    }
+
+
+        // =================================================
+        // EXPLORER WIDTH
+        // =================================================
+
+        function setExplorerWidth(width) {
+
+        const MIN_WIDTH =
+        170;
+
+        const MAX_WIDTH =
+        420;
+
+
+        width =
+        Math.max(
+        MIN_WIDTH,
+        Math.min(
+        width,
+        MAX_WIDTH
+        )
+        );
+
+
+        mainLayout.style.setProperty(
+        "--explorer-width",
+        width + "px"
+        );
+
+    }
+
+
+        // =================================================
+        // AI WIDTH
+        // =================================================
+
+        function setAIWidth(width) {
+
+        const MIN_WIDTH =
+        260;
+
+        const MAX_WIDTH =
+        500;
+
+
+        width =
+        Math.max(
+        MIN_WIDTH,
+        Math.min(
+        width,
+        MAX_WIDTH
+        )
+        );
+
+
+        mainLayout.style.setProperty(
+        "--ai-width",
+        width + "px"
+        );
+
+    }
+
+
+        // =================================================
+        // EXPLORER RESIZER
+        // =================================================
+
+        let resizingExplorer =
+        false;
+
+
+        explorerResizer.addEventListener(
+        "pointerdown",
+        function (event) {
+
+        resizingExplorer =
+        true;
+
+
+        explorerResizer.setPointerCapture(
+        event.pointerId
+        );
+
+
+        document.body.classList.add(
+        "side-resizing"
+        );
+
+
+        event.preventDefault();
+
+    }
+        );
+
+
+        explorerResizer.addEventListener(
+        "pointermove",
+        function (event) {
+
+        if (!resizingExplorer) {
+        return;
+    }
+
+
+        const layoutRect =
+        mainLayout.getBoundingClientRect();
+
+
+        const newWidth =
+        event.clientX -
+        layoutRect.left;
+
+
+        setExplorerWidth(
+        newWidth
+        );
+
+    }
+        );
+
+
+        function stopExplorerResize(
+        event
+        ) {
+
+        if (!resizingExplorer) {
+        return;
+    }
+
+
+        resizingExplorer =
+        false;
+
+
+        document.body.classList.remove(
+        "side-resizing"
+        );
+
+
+        try {
+
+        explorerResizer.releasePointerCapture(
+        event.pointerId
+        );
+
+    } catch (error) {
+        // Ignore
+    }
+
+    }
+
+
+        explorerResizer.addEventListener(
+        "pointerup",
+        stopExplorerResize
+        );
+
+
+        explorerResizer.addEventListener(
+        "pointercancel",
+        stopExplorerResize
+        );
+
+
+        // =================================================
+        // AI PANEL RESIZER
+        // =================================================
+
+        let resizingAI =
+        false;
+
+
+        aiResizer.addEventListener(
+        "pointerdown",
+        function (event) {
+
+        resizingAI =
+        true;
+
+
+        aiResizer.setPointerCapture(
+        event.pointerId
+        );
+
+
+        document.body.classList.add(
+        "side-resizing"
+        );
+
+
+        event.preventDefault();
+
+    }
+        );
+
+
+        aiResizer.addEventListener(
+        "pointermove",
+        function (event) {
+
+        if (!resizingAI) {
+        return;
+    }
+
+
+        const layoutRect =
+        mainLayout.getBoundingClientRect();
+
+
+        const newWidth =
+        layoutRect.right -
+        event.clientX;
+
+
+        setAIWidth(
+        newWidth
+        );
+
+    }
+        );
+
+
+        function stopAIResize(
+        event
+        ) {
+
+        if (!resizingAI) {
+        return;
+    }
+
+
+        resizingAI =
+        false;
+
+
+        document.body.classList.remove(
+        "side-resizing"
+        );
+
+
+        try {
+
+        aiResizer.releasePointerCapture(
+        event.pointerId
+        );
+
+    } catch (error) {
+        // Ignore
+    }
+
+    }
+
+
+        aiResizer.addEventListener(
+        "pointerup",
+        stopAIResize
+        );
+
+
+        aiResizer.addEventListener(
+        "pointercancel",
+        stopAIResize
+        );
+
+
+        console.log(
+        "TaskFlow side panel resizers loaded."
+        );
+
+    })();
+
+    })();
+

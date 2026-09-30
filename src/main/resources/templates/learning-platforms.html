@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Learning Platforms | TaskFlow Pro</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+
+            background:
+                    radial-gradient(
+                            circle at 10% 10%,
+                            rgba(37, 99, 235, 0.10),
+                            transparent 30%
+                    ),
+                    radial-gradient(
+                            circle at 90% 90%,
+                            rgba(124, 58, 237, 0.10),
+                            transparent 30%
+                    ),
+                    #f4f7fb;
+
+            color: #172554;
+        }
+
+        .page-wrapper {
+            max-width: 1100px;
+            margin: auto;
+            padding: 45px 20px;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        .page-header {
+            margin-top: 20px;
+            margin-bottom: 32px;
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: #64748b;
+        }
+
+        .resource-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            padding: 25px;
+            height: 100%;
+
+            box-shadow:
+                    0 10px 30px rgba(15, 23, 42, 0.07);
+
+            transition: 0.25s ease;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                    0 16px 35px rgba(15, 23, 42, 0.11);
+        }
+
+        .category-icon {
+            width: 52px;
+            height: 52px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 14px;
+
+            background: #e0edff;
+            color: #2563eb;
+
+            font-size: 24px;
+
+            margin-bottom: 16px;
+        }
+
+        .resource-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .resource-card p {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .platform-list {
+            margin-top: 18px;
+        }
+
+        .platform-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 11px 13px;
+
+            margin-bottom: 8px;
+
+            background: #f8fafc;
+
+            border-radius: 10px;
+
+            color: #334155;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            text-decoration: none;
+
+            transition: 0.2s ease;
+        }
+
+        .platform-item:hover {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .platform-item i {
+            color: #94a3b8;
+        }
+
+        .info-box {
+            margin-top: 35px;
+
+            background: white;
+
+            border: 1px dashed #cbd5e1;
+
+            border-radius: 18px;
+
+            padding: 22px;
+
+            text-align: center;
+        }
+
+        .info-box p {
+            margin: 0;
+            color: #64748b;
+        }
+
+        @media (max-width: 768px) {
+
+            .page-wrapper {
+                padding: 30px 15px;
+            }
+
+            .page-header h1 {
+                font-size: 27px;
+            }
+
+        }
+
+    </style>
+
+
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <a href="/learning" class="back-link">
+
+        <i class="bi bi-arrow-left"></i>
+
+        Back to Learning & Career
+
+    </a>
+
+
+    <!-- HEADER -->
+
+    <div class="page-header">
+
+        <h1>
+            📚 Learning Platforms
+        </h1>
+
+        <p>
+            Explore trusted platforms and resources to
+            improve your technical and placement skills.
+        </p>
+
+    </div>
+
+
+    <!-- RESOURCE CATEGORIES -->
+
+    <div class="row g-4">
+
+
+        <!-- PROGRAMMING & DSA -->
+
+        <div class="col-md-6">
+
+            <div class="resource-card">
+
+                <div class="category-icon">
+                    <i class="bi bi-code-slash"></i>
+                </div>
+
+                <h3>
+                    💻 Programming & DSA
+                </h3>
+
+                <p>
+                    Practice programming, data structures,
+                    algorithms and competitive coding.
+                </p>
+
+                <div class="platform-list">
+
+                    <a href="https://www.geeksforgeeks.org/"
+                       target="_blank"
+                       class="platform-item">
+
+                        GeeksforGeeks
+
+                        <i class="bi bi-box-arrow-up-right"></i>
+
+                    </a>
+
+                    <a href="https://leetcode.com/"
+                       target="_blank"
+                       class="platform-item">
+
+                        LeetCode
+
+                        <i class="bi bi-box-arrow-up-right"></i>
+
+                    </a>
+
+                    <a href="https://www.hackerrank.com/"
+                       target="_blank"
+                       class="platform-item">
+
+                        HackerRank
+
+                        <i class="bi bi-box-arrow-up-right"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- AI / ML -->
+
+        <div class="col-md-6">
+
+            <div class="resource-card">
+
+                <div class="category-icon">
+
+                    <i class="bi bi-robot"></i>
+
+                </div>
+
+                <h3>
+                    🤖 AI / Machine Learning
+                </h3>
+
+                <p>
+                    Learn artificial intelligence, machine
+                    learning, deep learning and data science.
+                </p>
+
+                <div class="platform-list">
+
+                    <a href="https://www.coursera.org/"
+                       target="_blank"
+                       class="platform-item">
+
+                        Coursera
+
+                        <i class="bi bi-box-arrow-up-right"></i>
+
+                    </a>
+
+                    <a href="https://www.kaggle.com/"
+                       target="_blank"
+                       class="platform-item">
+
+                        Kaggle
+
+                        <i class="bi bi-box-arrow-up-right"></i>
+
+                    </a>
+
+                    <a href="https://www.youtube.com/"
+                       target="_blank"
+                       class="platform-item">
+
+                        YouTube
+
+                        <i class="bi bi-box-arrow-up-right"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- WEB DEVELOPMENT -->
+
+        <div class="col-md-6">
+
+            <div class="resource-card">
+
+                <div class="category-icon">
+
+                    <i class="bi bi-globe2"></i>
+
+                </div>
+
+                <h3>
+                    🌐 Web Development
+                </h3>
+
+                <p>
+                    Learn HTML, CSS, JavaScript, React,
+                    backend development and APIs.
+                </p>
+
+                <div class="platform-list">
+
+                    <a href="https://www.w3schools.com/"
+                       target="_blank"
+                       class="platform-item">
+
+                        W3Schools
+
+                        <i class="bi bi-box-arrow-up-right"></i>
+
+                    </a>
+
+                    <a href="https://www.freecodecamp.org/"
+                       target="_blank"
+                       class="platform-item">
+
+                        freeCodeCamp
+
+                        <i class="bi bi-box-arrow-up-right"></i>
+
+                    </a>
+
+                    <a href="https://developer.mozilla.org/"
+                       target="_blank"
+                       class="platform-item">
+
+                        MDN Web Docs
+
+                        <i class="bi bi-box-arrow-up-right"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DBMS -->
+
+        <div class="col-md-6">
+
+            <div class="resource-card">
+
+                <div class="category-icon">
+
+                    <i class="bi bi-database"></i>
+
+                </div>
+
+                <h3>
+                    🗄️ DBMS & SQL
+                </h3>
+
+                <p>
+                    Learn databases, SQL queries,
+                    normalization and database concepts.
+                </p>
+
+                <div class="platform-list">
+
+                    <a href="https://www.w3schools.com/sql/"
+                       target="_blank"
+                       class="platform-item">
+
+                        W3Schools SQL
+
+                        <i class="bi bi-box-arrow-up-right"></i>
+
+                    </a>
+
+                    <a href="https://sqlbolt.com/"
+                       target="_blank"
+                       class="platform-item">
+
+                        SQLBolt
+
+                        <i class="bi bi-box-arrow-up-right"></i>
+
+                    </a>
+
+                    <a href="https://www.geeksforgeeks.org/dbms/"
+                       target="_blank"
+                       class="platform-item">
+
+                        GeeksforGeeks DBMS
+
+                        <i class="bi bi-box-arrow-up-right"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CORE CS -->
+
+        <div class="col-md-6">
+
+            <div class="resource-card">
+
+                <div class="category-icon">
+
+                    <i class="bi bi-pc-display"></i>
+
+                </div>
+
+                <h3>
+                    🖥️ Core CS
+                </h3>
+
+                <p>
+                    Study Operating Systems, Computer Networks,
+                    OOP and other core computer science subjects.
+                </p>
+
+                <div class="platform-list">
+
+                    <a href="https://www.geeksforgeeks.org/operating-systems/"
+                       target="_blank"
+                       class="platform-item">
+
+                        Operating Systems
+
+                        <i class="bi bi-box-arrow-up-right"></i>
+
+                    </a>
+
+                    <a href="https://www.geeksforgeeks.org/computer-network-tutorials/"
+                       target="_blank"
+                       class="platform-item">
+
+                        Computer Networks
+
+                        <i class="bi bi-box-arrow-up-right"></i>
+
+                    </a>
+
+                    <a href="https://www.geeksforgeeks.org/object-oriented-programming-oops-concept-in-java/"
+                       target="_blank"
+                       class="platform-item">
+
+                        OOP Concepts
+
+                        <i class="bi bi-box-arrow-up-right"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PLACEMENTS -->
+
+        <div class="col-md-6">
+
+            <div class="resource-card">
+
+                <div class="category-icon">
+
+                    <i class="bi bi-briefcase"></i>
+
+                </div>
+
+                <h3>
+                    🎯 Placement Preparation
+                </h3>
+
+                <p>
+                    Prepare for aptitude, coding rounds,
+                    technical interviews and placements.
+                </p>
+
+                <div class="platform-list">
+
+                    <a href="https://www.geeksforgeeks.org/"
+                       target="_blank"
+                       class="platform-item">
+
+                        GeeksforGeeks
+
+                        <i class="bi bi-box-arrow-up-right"></i>
+
+                    </a>
+
+                    <a href="https://www.hackerrank.com/"
+                       target="_blank"
+                       class="platform-item">
+
+                        HackerRank
+
+                        <i class="bi bi-box-arrow-up-right"></i>
+
+                    </a>
+
+                    <a href="https://www.youtube.com/"
+                       target="_blank"
+                       class="platform-item">
+
+                        YouTube
+
+                        <i class="bi bi-box-arrow-up-right"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- INFO -->
+
+    <div class="info-box">
+
+        <p>
+            💡 TaskFlow will gradually add its own
+            structured learning paths, coding challenges,
+            tests and skill tracking here.
+        </p>
+
+    </div>
+
+
+</div>
+
+</body>
+
+</html>
