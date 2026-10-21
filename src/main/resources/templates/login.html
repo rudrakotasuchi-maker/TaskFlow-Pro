@@ -5,7 +5,6 @@
 
 <head>
 
-    ```
     <meta charset="UTF-8">
 
     <meta name="viewport"
@@ -236,7 +235,6 @@
         }
 
     </style>
-    ```
 
 </head>
 
@@ -244,7 +242,6 @@
 
 <div class="login-wrapper">
 
-    ```
     <!-- BRAND -->
 
     <div class="brand">
@@ -278,6 +275,10 @@
                 Sign in to continue to your workspace.
             </div>
 
+            <div th:if="${successMessage}" class="alert alert-success d-flex align-items-center mb-3" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                <div th:text="${successMessage}">Registration successful! Please sign in.</div>
+            </div>
 
             <form th:action="@{/login}"
                   method="post">
@@ -363,7 +364,6 @@
         TaskFlow Pro • Build. Collaborate. Deliver.
 
     </div>
-    ```
 
 </div>
 

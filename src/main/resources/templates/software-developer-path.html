@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Software Developer Path | TaskFlow Academy</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f4f7fb;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: #172b4d;
+        }
+
+        .page-container {
+            max-width: 1180px;
+            margin: auto;
+            padding: 28px 20px 60px;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: #0d6efd;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* HERO */
+
+        .hero {
+            margin-top: 18px;
+            padding: 42px;
+            border-radius: 24px;
+            background:
+                    radial-gradient(circle at 90% 10%, rgba(13,110,253,.16), transparent 35%),
+                    linear-gradient(135deg, #ffffff, #eef5ff);
+            border: 1px solid #e1e9f5;
+            box-shadow: 0 12px 35px rgba(25, 55, 100, 0.08);
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: #eaf3ff;
+            color: #0d6efd;
+            padding: 7px 13px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+        }
+
+        .hero h1 {
+            margin-top: 18px;
+            font-size: 38px;
+            font-weight: 800;
+            line-height: 1.15;
+        }
+
+        .hero h1 span {
+            color: #0d6efd;
+        }
+
+        .hero p {
+            max-width: 760px;
+            color: #60708a;
+            line-height: 1.7;
+            margin-top: 15px;
+        }
+
+        .hero-actions {
+            margin-top: 25px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .primary-btn {
+            background: #0d6efd;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 20px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .primary-btn:hover {
+            background: #0b5ed7;
+            color: white;
+        }
+
+        .secondary-btn {
+            background: white;
+            color: #172b4d;
+            border: 1px solid #dce4ef;
+            border-radius: 10px;
+            padding: 12px 20px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .secondary-btn:hover {
+            background: #f7f9fc;
+            color: #172b4d;
+        }
+
+        /* SECTION */
+
+        .section {
+            background: white;
+            margin-top: 22px;
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid #e4eaf2;
+            box-shadow: 0 8px 25px rgba(25, 55, 100, 0.05);
+        }
+
+        .section-label {
+            color: #0d6efd;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .7px;
+        }
+
+        .section h2 {
+            margin-top: 7px;
+            font-size: 25px;
+            font-weight: 750;
+        }
+
+        .section-intro {
+            color: #68778f;
+            line-height: 1.7;
+            max-width: 850px;
+        }
+
+        /* STATS */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 22px;
+        }
+
+        .stat-card {
+            padding: 20px;
+            border-radius: 15px;
+            background: #f8faff;
+            border: 1px solid #e3eaf5;
+        }
+
+        .stat-icon {
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eaf3ff;
+            color: #0d6efd;
+            border-radius: 10px;
+            margin-bottom: 13px;
+        }
+
+        .stat-card strong {
+            display: block;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .stat-card span {
+            color: #718096;
+            font-size: 13px;
+        }
+
+        /* WHAT YOU DO */
+
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 22px;
+        }
+
+        .role-card {
+            padding: 20px;
+            border: 1px solid #e3eaf2;
+            border-radius: 15px;
+            background: #fff;
+            transition: .2s;
+        }
+
+        .role-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 22px rgba(20, 60, 110, .08);
+        }
+
+        .role-card i {
+            font-size: 24px;
+            color: #0d6efd;
+        }
+
+        .role-card h5 {
+            margin-top: 12px;
+            font-weight: 700;
+        }
+
+        .role-card p {
+            color: #68778f;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+
+        /* SKILLS */
+
+        .skill-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .skill {
+            padding: 9px 14px;
+            border-radius: 25px;
+            background: #eef5ff;
+            color: #175dcc;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid #dbe9ff;
+        }
+
+        /* ROADMAP */
+
+        .roadmap {
+            margin-top: 25px;
+        }
+
+        .roadmap-item {
+            display: flex;
+            gap: 18px;
+            position: relative;
+            padding-bottom: 25px;
+        }
+
+        .roadmap-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .roadmap-number {
+            min-width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #0d6efd;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            position: relative;
+            z-index: 2;
+        }
+
+        .roadmap-item:not(:last-child) .roadmap-number::after {
+            content: "";
+            position: absolute;
+            top: 38px;
+            left: 18px;
+            width: 2px;
+            height: 65px;
+            background: #dce8f8;
+        }
+
+        .roadmap-content {
+            padding-top: 3px;
+        }
+
+        .roadmap-content h5 {
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .roadmap-content p {
+            margin: 0;
+            color: #68778f;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* PROJECTS */
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 22px;
+        }
+
+        .project-card {
+            padding: 22px;
+            background: #f8faff;
+            border: 1px solid #e2e9f3;
+            border-radius: 15px;
+        }
+
+        .project-card .project-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eaf3ff;
+            color: #0d6efd;
+            font-size: 19px;
+        }
+
+        .project-card h5 {
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .project-card p {
+            color: #68778f;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* PLACEMENT */
+
+        .placement-box {
+            margin-top: 22px;
+            padding: 24px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #eef6ff, #f8fbff);
+            border: 1px solid #d8e8ff;
+        }
+
+        .placement-box h4 {
+            font-weight: 750;
+        }
+
+        .placement-box ul {
+            margin-top: 15px;
+            color: #60708a;
+        }
+
+        .placement-box li {
+            margin-bottom: 8px;
+        }
+
+        /* FINAL */
+
+        .final-section {
+            text-align: center;
+            background: linear-gradient(135deg, #0d6efd, #2563eb);
+            color: white;
+        }
+
+        .final-section p {
+            color: rgba(255,255,255,.85);
+            max-width: 700px;
+            margin: 10px auto 22px;
+            line-height: 1.7;
+        }
+
+        .final-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            color: #0d6efd;
+            padding: 12px 22px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 750;
+        }
+
+        .final-btn:hover {
+            color: #0b5ed7;
+            background: #f4f8ff;
+        }
+
+        @media (max-width: 850px) {
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 31px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .page-container {
+                padding: 20px 12px 40px;
+            }
+
+            .hero,
+            .section {
+                padding: 22px;
+            }
+
+            .stats-grid,
+            .role-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 27px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="page-container">
+
+    <a href="/learning/academy/opportunities" class="back-link">
+        ← Back to Opportunity Explorer
+    </a>
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-badge">
+            <i class="bi bi-code-slash"></i>
+            TaskFlow Career Path
+        </div>
+
+        <h1>
+            Become a
+            <span>Software Developer.</span>
+        </h1>
+
+        <p>
+            Software development is one of the broadest technology careers.
+            You learn how to design, build, test and maintain software that
+            solves real-world problems. TaskFlow will guide you from your
+            current level to the skills, projects and practice needed to
+            become placement-ready.
+        </p>
+
+        <div class="hero-actions">
+
+            <a href="/learning/academy" class="primary-btn">
+                <i class="bi bi-map"></i>
+                Start My Learning Journey
+            </a>
+
+            <a href="/studio" class="secondary-btn">
+                <i class="bi bi-code-square"></i>
+                Open TaskFlow Studio
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- QUICK OVERVIEW -->
+
+    <section class="section">
+
+        <div class="section-label">Career Overview</div>
+
+        <h2>What does a Software Developer do?</h2>
+
+        <p class="section-intro">
+            A Software Developer uses programming, problem-solving and
+            software engineering practices to build applications and
+            systems. The role can lead to frontend, backend, full-stack,
+            mobile, cloud and many other technology careers.
+        </p>
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="bi bi-code-slash"></i>
+                </div>
+                <strong>Programming</strong>
+                <span>Write and understand code</span>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="bi bi-puzzle"></i>
+                </div>
+                <strong>Problem Solving</strong>
+                <span>Turn problems into solutions</span>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="bi bi-diagram-3"></i>
+                </div>
+                <strong>Software Design</strong>
+                <span>Build reliable applications</span>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="bi bi-people"></i>
+                </div>
+                <strong>Team Work</strong>
+                <span>Build software with others</span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- WHAT CAN YOU BUILD -->
+
+    <section class="section">
+
+        <div class="section-label">Real Work</div>
+
+        <h2>What can you actually build?</h2>
+
+        <p class="section-intro">
+            Software development is not only about solving coding questions.
+            You can use your skills to build products, platforms and tools.
+        </p>
+
+        <div class="role-grid">
+
+            <div class="role-card">
+                <i class="bi bi-window"></i>
+                <h5>Web Applications</h5>
+                <p>
+                    Build websites and interactive applications used by
+                    real users and businesses.
+                </p>
+            </div>
+
+            <div class="role-card">
+                <i class="bi bi-phone"></i>
+                <h5>Mobile Applications</h5>
+                <p>
+                    Create Android and iOS applications that solve
+                    practical problems.
+                </p>
+            </div>
+
+            <div class="role-card">
+                <i class="bi bi-server"></i>
+                <h5>Backend Systems</h5>
+                <p>
+                    Build APIs, databases, authentication systems and
+                    business logic.
+                </p>
+            </div>
+
+            <div class="role-card">
+                <i class="bi bi-cloud"></i>
+                <h5>Cloud Applications</h5>
+                <p>
+                    Deploy and operate applications using modern cloud
+                    technologies.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SKILLS -->
+
+    <section class="section">
+
+        <div class="section-label">Skill Foundation</div>
+
+        <h2>What skills will you develop?</h2>
+
+        <p class="section-intro">
+            You don't need to know everything today. TaskFlow will introduce
+            these skills progressively based on your current level.
+        </p>
+
+        <div class="skill-grid">
+
+            <span class="skill">Programming Fundamentals</span>
+            <span class="skill">Java / Python / C++</span>
+            <span class="skill">Object-Oriented Programming</span>
+            <span class="skill">Data Structures</span>
+            <span class="skill">Algorithms</span>
+            <span class="skill">SQL</span>
+            <span class="skill">Git & GitHub</span>
+            <span class="skill">HTML & CSS</span>
+            <span class="skill">JavaScript</span>
+            <span class="skill">APIs</span>
+            <span class="skill">Backend Development</span>
+            <span class="skill">Testing</span>
+            <span class="skill">Problem Solving</span>
+            <span class="skill">System Design Basics</span>
+
+        </div>
+
+    </section>
+
+
+    <!-- LEARNING ROADMAP -->
+
+    <section class="section">
+
+        <div class="section-label">Your Roadmap</div>
+
+        <h2>How TaskFlow will take you there</h2>
+
+        <p class="section-intro">
+            Instead of giving you a huge list of technologies, TaskFlow
+            will guide you step by step and continuously check whether
+            you actually understand what you are learning.
+        </p>
+
+        <div class="roadmap">
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-number">1</div>
+
+                <div class="roadmap-content">
+                    <h5>Programming Foundations</h5>
+                    <p>
+                        Variables, data types, operators, conditions,
+                        loops, functions and basic problem solving.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-number">2</div>
+
+                <div class="roadmap-content">
+                    <h5>Choose Your Primary Language</h5>
+                    <p>
+                        Build strong programming ability in a language
+                        aligned with your goals and placement requirements.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-number">3</div>
+
+                <div class="roadmap-content">
+                    <h5>DSA & Problem Solving</h5>
+                    <p>
+                        Progress from basic problems to increasingly
+                        challenging data structures and algorithms.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-number">4</div>
+
+                <div class="roadmap-content">
+                    <h5>Build Real Applications</h5>
+                    <p>
+                        Apply concepts through guided projects and
+                        progressively larger software projects.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-number">5</div>
+
+                <div class="roadmap-content">
+                    <h5>Placement Preparation</h5>
+                    <p>
+                        Practice DSA, aptitude, technical concepts,
+                        coding assessments and interview preparation.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-number">6</div>
+
+                <div class="roadmap-content">
+                    <h5>Internships & Opportunities</h5>
+                    <p>
+                        Use your demonstrated skills, projects and
+                        readiness profile to discover relevant opportunities.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PROJECTS -->
+
+    <section class="section">
+
+        <div class="section-label">Build To Prove</div>
+
+        <h2>Projects you could build</h2>
+
+        <p class="section-intro">
+            Learning becomes meaningful when you use it to create something.
+            TaskFlow will connect learning concepts with project milestones.
+        </p>
+
+        <div class="project-grid">
+
+            <div class="project-card">
+
+                <div class="project-icon">
+                    <i class="bi bi-calculator"></i>
+                </div>
+
+                <h5>Beginner Project</h5>
+
+                <p>
+                    Build a useful application using basic programming,
+                    conditions, loops and functions.
+                </p>
+
+            </div>
+
+
+            <div class="project-card">
+
+                <div class="project-icon">
+                    <i class="bi bi-kanban"></i>
+                </div>
+
+                <h5>Intermediate Project</h5>
+
+                <p>
+                    Build a full application using frontend, backend,
+                    database and APIs.
+                </p>
+
+            </div>
+
+
+            <div class="project-card">
+
+                <div class="project-icon">
+                    <i class="bi bi-rocket-takeoff"></i>
+                </div>
+
+                <h5>Portfolio Project</h5>
+
+                <p>
+                    Create a larger project that demonstrates your skills
+                    to recruiters and internship opportunities.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PLACEMENT -->
+
+    <section class="section">
+
+        <div class="section-label">Placement Readiness</div>
+
+        <h2>What will TaskFlow measure?</h2>
+
+        <p class="section-intro">
+            Completing lessons alone does not mean you are ready.
+            TaskFlow should measure whether you can actually apply what
+            you learned.
+        </p>
+
+        <div class="placement-box">
+
+            <h4>
+                <i class="bi bi-graph-up-arrow"></i>
+                Your future readiness profile
+            </h4>
+
+            <ul>
+
+                <li>Programming fundamentals</li>
+
+                <li>DSA problem-solving ability</li>
+
+                <li>Weekly coding test performance</li>
+
+                <li>Concept understanding</li>
+
+                <li>Projects completed</li>
+
+                <li>Technical interview preparation</li>
+
+                <li>Consistency and learning progress</li>
+
+                <li>Internship / placement readiness</li>
+
+            </ul>
+
+        </div>
+
+    </section>
+
+
+    <!-- FINAL CTA -->
+
+    <section class="section final-section">
+
+        <h2>Ready to start your journey?</h2>
+
+        <p>
+            Your goal is not to finish a list of courses.
+            Your goal is to become someone who can understand,
+            solve problems, build software and prove your skills.
+        </p>
+
+        <a href="/learning/academy" class="final-btn">
+            <i class="bi bi-arrow-right-circle"></i>
+            Continue My TaskFlow Journey
+        </a>
+
+    </section>
+
+</div>
+
+</body>
+</html>

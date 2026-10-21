@@ -1,7 +1,8 @@
-package com.taskflow.taskflowpro.service;
+package com.taskflow.taskflowpro.impl;
 
 import com.taskflow.taskflowpro.entity.AssignmentSubmission;
 import com.taskflow.taskflowpro.repository.AssignmentSubmissionRepository;
+import com.taskflow.taskflowpro.service.AssignmentSubmissionService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

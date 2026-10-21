@@ -1,107 +1,943 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
-    ```
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>TaskFlow Coding Academy | TaskFlow Pro</title>
+    <title>TaskFlow Academy | TaskFlow Pro</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
-    ```
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+          rel="stylesheet">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f4f7fb;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: #172b4d;
+        }
+
+        .academy-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 35px 20px 60px;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: #0d6efd;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* HERO */
+
+        .hero-card {
+            margin-top: 18px;
+            background: linear-gradient(135deg, #ffffff 0%, #eef5ff 100%);
+            border-radius: 22px;
+            padding: 32px;
+            box-shadow: 0 10px 35px rgba(35, 74, 135, 0.08);
+            border: 1px solid #e3ebf7;
+        }
+
+        .academy-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 12px;
+            border-radius: 30px;
+            background: #eaf3ff;
+            color: #0d6efd;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .5px;
+        }
+
+        .hero-title {
+            margin-top: 18px;
+            font-size: 34px;
+            line-height: 1.15;
+            font-weight: 800;
+            color: #13294b;
+        }
+
+        .hero-title span {
+            color: #0d6efd;
+        }
+
+        .hero-description {
+            margin-top: 12px;
+            max-width: 760px;
+            color: #60708a;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* JOURNEY */
+
+        .journey {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            margin-top: 28px;
+        }
+
+        .journey-item {
+            background: rgba(255,255,255,.8);
+            border: 1px solid #dce6f3;
+            border-radius: 13px;
+            padding: 13px 7px;
+            text-align: center;
+        }
+
+        .journey-number {
+            display: block;
+            font-size: 10px;
+            color: #9aa9bd;
+            font-weight: 700;
+        }
+
+        .journey-icon {
+            width: 30px;
+            height: 30px;
+            margin: 6px auto;
+            border-radius: 9px;
+            background: #eaf3ff;
+            color: #0d6efd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .journey-text {
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        /* MAIN CARD */
+
+        .main-card {
+            margin-top: 22px;
+            background: #ffffff;
+            border-radius: 22px;
+            box-shadow: 0 10px 35px rgba(35, 74, 135, 0.07);
+            border: 1px solid #e4eaf2;
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 27px 30px 22px;
+            border-bottom: 1px solid #edf1f6;
+        }
+
+        .step-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: #eaf3ff;
+            color: #0d6efd;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .4px;
+        }
+
+        .section-title {
+            margin-top: 12px;
+            margin-bottom: 5px;
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .section-subtitle {
+            color: #718096;
+            font-size: 12px;
+        }
+
+        .question {
+            padding: 25px 30px 0;
+        }
+
+        .question-number {
+            color: #0d6efd;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .question-title {
+            margin-top: 5px;
+            margin-bottom: 4px;
+            font-size: 15px;
+            font-weight: 750;
+        }
+
+        .question-help {
+            color: #7a8798;
+            font-size: 11px;
+            margin-bottom: 14px;
+        }
+
+        /* OPTIONS */
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .option {
+            position: relative;
+            border: 1px solid #dfe6ef;
+            border-radius: 12px;
+            background: #fbfcfe;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all .2s ease;
+            min-height: 70px;
+        }
+
+        .option:hover {
+            border-color: #8ab8ff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(13,110,253,.08);
+        }
+
+        .option.selected {
+            border: 2px solid #0d6efd;
+            background: #eef5ff;
+            box-shadow: 0 6px 18px rgba(13,110,253,.10);
+        }
+
+        .option-icon {
+            font-size: 18px;
+            margin-bottom: 7px;
+        }
+
+        .option-title {
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .check-mark {
+            display: none;
+            position: absolute;
+            top: 7px;
+            right: 8px;
+            color: #0d6efd;
+            font-size: 13px;
+        }
+
+        .option.selected .check-mark {
+            display: block;
+        }
+
+        /* FOOTER */
+
+        .action-area {
+            margin: 28px 30px 30px;
+            padding-top: 20px;
+            border-top: 1px solid #edf1f6;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .helper-text {
+            color: #7b8798;
+            font-size: 11px;
+        }
+
+        .continue-btn {
+            border: none;
+            border-radius: 10px;
+            padding: 11px 21px;
+            background: linear-gradient(135deg, #0d6efd, #2563eb);
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 7px 18px rgba(13,110,253,.22);
+            transition: .2s;
+        }
+
+        .continue-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 23px rgba(13,110,253,.28);
+        }
+
+        .continue-btn:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .profile-ready {
+            margin: 0 30px 30px;
+            border-radius: 13px;
+            border: 1px solid #b9dcff;
+            background: #f0f8ff;
+            padding: 15px 17px;
+        }
+
+        .profile-ready-title {
+            color: #0d6efd;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .profile-ready-text {
+            margin-top: 5px;
+            font-size: 11px;
+            color: #60708a;
+        }
+
+        @media(max-width: 800px) {
+
+            .journey {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero-title {
+                font-size: 28px;
+            }
+        }
+
+        @media(max-width: 500px) {
+
+            .academy-wrapper {
+                padding: 20px 12px;
+            }
+
+            .hero-card {
+                padding: 22px;
+            }
+
+            .section-header,
+            .question {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .action-area {
+                margin-left: 20px;
+                margin-right: 20px;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .profile-ready {
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+        }
+
+    </style>
 </head>
 
 <body>
 
-<div class="container mt-5">
+<div class="academy-wrapper">
 
-    ```
-    <a href="/learning"
-       class="text-decoration-none">
+    <a href="/learning" class="back-link">
         ← Back to Learning & Career
     </a>
 
-    <div class="text-center mt-4">
+    <!-- HERO -->
 
-        <h1>🚀 TaskFlow Coding Academy</h1>
+    <div class="hero-card">
 
-        <p class="text-muted">
-            Learn → Practice → Code → Optimize → Build → Test → Track
-        </p>
+        <span class="academy-badge">
+            <i class="bi bi-compass"></i>
+            TASKFLOW ACADEMY
+        </span>
 
-    </div>
-
-    <div class="row g-4 mt-3">
-
-        <div class="col-md-4">
-
-            <div class="card shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <h4>🧠 Learn</h4>
-
-                    <p>
-                        Understand programming and DSA concepts
-                        step by step.
-                    </p>
-
-                </div>
-
-            </div>
-
+        <div class="hero-title">
+            Discover your direction.<br>
+            <span>Build your future.</span>
         </div>
 
-        <div class="col-md-4">
-
-            <div class="card shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <h4>💻 Practice</h4>
-
-                    <p>
-                        Solve problems and improve your
-                        problem-solving skills.
-                    </p>
-
-                </div>
-
-            </div>
-
+        <div class="hero-description">
+            Your B.Tech journey is bigger than choosing a programming language.
+            First understand where you are, what opportunities exist, what interests
+            you and which directions may fit you.
         </div>
 
-        <div class="col-md-4">
+        <div class="journey">
 
-            <div class="card shadow-sm h-100">
+            <div class="journey-item">
+                <span class="journey-number">01</span>
+                <div class="journey-icon"><i class="bi bi-person"></i></div>
+                <div class="journey-text">Discover</div>
+            </div>
 
-                <div class="card-body">
+            <div class="journey-item">
+                <span class="journey-number">02</span>
+                <div class="journey-icon"><i class="bi bi-compass"></i></div>
+                <div class="journey-text">Explore</div>
+            </div>
 
-                    <h4>🚀 Build</h4>
+            <div class="journey-item">
+                <span class="journey-number">03</span>
+                <div class="journey-icon"><i class="bi bi-signpost"></i></div>
+                <div class="journey-text">Choose</div>
+            </div>
 
-                    <p>
-                        Apply your knowledge by building
-                        real projects.
-                    </p>
+            <div class="journey-item">
+                <span class="journey-number">04</span>
+                <div class="journey-icon"><i class="bi bi-book"></i></div>
+                <div class="journey-text">Learn</div>
+            </div>
 
-                </div>
+            <div class="journey-item">
+                <span class="journey-number">05</span>
+                <div class="journey-icon"><i class="bi bi-code-square"></i></div>
+                <div class="journey-text">Practice</div>
+            </div>
 
+            <div class="journey-item">
+                <span class="journey-number">06</span>
+                <div class="journey-icon"><i class="bi bi-rocket-takeoff"></i></div>
+                <div class="journey-text">Become Ready</div>
             </div>
 
         </div>
 
     </div>
-    ```
+
+
+    <!-- DISCOVERY -->
+
+    <div class="main-card">
+
+        <div class="section-header">
+
+            <span class="step-badge">STEP 01</span>
+
+            <div class="section-title">
+                Let's understand where you are
+            </div>
+
+            <div class="section-subtitle">
+                There is no perfect answer. Tell us where you are today —
+                your direction can change as you discover more.
+            </div>
+
+        </div>
+
+
+        <!-- YEAR -->
+
+        <div class="question">
+
+            <div class="question-number">
+                01 · Current Stage
+            </div>
+
+            <div class="question-title">
+                Where are you in your B.Tech journey?
+            </div>
+
+            <div class="question-help">
+                Your current stage helps TaskFlow understand what to recommend first.
+            </div>
+
+            <div class="options">
+
+                <div class="option"
+                     data-group="year"
+                     data-value="1st Year"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">🌱</div>
+                    <div class="option-title">1st Year</div>
+                </div>
+
+                <div class="option"
+                     data-group="year"
+                     data-value="2nd Year"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">📚</div>
+                    <div class="option-title">2nd Year</div>
+                </div>
+
+                <div class="option"
+                     data-group="year"
+                     data-value="3rd Year"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">🚀</div>
+                    <div class="option-title">3rd Year</div>
+                </div>
+
+                <div class="option"
+                     data-group="year"
+                     data-value="4th Year"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">🎯</div>
+                    <div class="option-title">4th Year</div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- BRANCH -->
+
+        <div class="question">
+
+            <div class="question-number">
+                02 · Academic Background
+            </div>
+
+            <div class="question-title">
+                What are you studying?
+            </div>
+
+            <div class="question-help">
+                Your branch gives us a starting point — it does not limit your future.
+            </div>
+
+            <div class="options">
+
+                <div class="option"
+                     data-group="branch"
+                     data-value="AI & Data Science"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">🤖</div>
+                    <div class="option-title">AI & Data Science</div>
+                </div>
+
+                <div class="option"
+                     data-group="branch"
+                     data-value="Computer Science"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">💻</div>
+                    <div class="option-title">Computer Science</div>
+                </div>
+
+                <div class="option"
+                     data-group="branch"
+                     data-value="ECE"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">📡</div>
+                    <div class="option-title">ECE</div>
+                </div>
+
+                <div class="option"
+                     data-group="branch"
+                     data-value="EEE"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">⚡</div>
+                    <div class="option-title">EEE</div>
+                </div>
+
+                <div class="option"
+                     data-group="branch"
+                     data-value="Mechanical"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">⚙️</div>
+                    <div class="option-title">Mechanical</div>
+                </div>
+
+                <div class="option"
+                     data-group="branch"
+                     data-value="Civil"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">🏗️</div>
+                    <div class="option-title">Civil</div>
+                </div>
+
+                <div class="option"
+                     data-group="branch"
+                     data-value="IT"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">🖥️</div>
+                    <div class="option-title">IT</div>
+                </div>
+
+                <div class="option"
+                     data-group="branch"
+                     data-value="Other"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">🎓</div>
+                    <div class="option-title">Other</div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- GOAL -->
+
+        <div class="question">
+
+            <div class="question-number">
+                03 · Current Goal
+            </div>
+
+            <div class="question-title">
+                What do you want from your B.Tech journey?
+            </div>
+
+            <div class="question-help">
+                Choose the direction that feels most useful right now.
+            </div>
+
+            <div class="options">
+
+                <div class="option"
+                     data-group="goal"
+                     data-value="Placement"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">🎯</div>
+                    <div class="option-title">Placement</div>
+                </div>
+
+                <div class="option"
+                     data-group="goal"
+                     data-value="Internship"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">💼</div>
+                    <div class="option-title">Internship</div>
+                </div>
+
+                <div class="option"
+                     data-group="goal"
+                     data-value="Build Skills"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">📈</div>
+                    <div class="option-title">Build Skills</div>
+                </div>
+
+                <div class="option"
+                     data-group="goal"
+                     data-value="Explore Careers"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">🧭</div>
+                    <div class="option-title">Explore Careers</div>
+                </div>
+
+                <div class="option"
+                     data-group="goal"
+                     data-value="Higher Studies"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">🎓</div>
+                    <div class="option-title">Higher Studies</div>
+                </div>
+
+                <div class="option"
+                     data-group="goal"
+                     data-value="Entrepreneurship"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">🚀</div>
+                    <div class="option-title">Entrepreneurship</div>
+                </div>
+
+                <div class="option"
+                     data-group="goal"
+                     data-value="Not Sure Yet"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">🤔</div>
+                    <div class="option-title">Not Sure Yet</div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- INTEREST -->
+
+        <div class="question">
+
+            <div class="question-number">
+                04 · Interests
+            </div>
+
+            <div class="question-title">
+                What areas sound interesting to you?
+            </div>
+
+            <div class="question-help">
+                You don't need experience. Choose what makes you curious.
+            </div>
+
+            <div class="options">
+
+                <div class="option"
+                     data-group="interest"
+                     data-value="AI / ML"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">🤖</div>
+                    <div class="option-title">AI / ML</div>
+                </div>
+
+                <div class="option"
+                     data-group="interest"
+                     data-value="Software Development"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">💻</div>
+                    <div class="option-title">Software Development</div>
+                </div>
+
+                <div class="option"
+                     data-group="interest"
+                     data-value="Data"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">📊</div>
+                    <div class="option-title">Data</div>
+                </div>
+
+                <div class="option"
+                     data-group="interest"
+                     data-value="Web Development"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">🌐</div>
+                    <div class="option-title">Web Development</div>
+                </div>
+
+                <div class="option"
+                     data-group="interest"
+                     data-value="Mobile"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">📱</div>
+                    <div class="option-title">Mobile</div>
+                </div>
+
+                <div class="option"
+                     data-group="interest"
+                     data-value="Cybersecurity"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">🔐</div>
+                    <div class="option-title">Cybersecurity</div>
+                </div>
+
+                <div class="option"
+                     data-group="interest"
+                     data-value="Cloud / DevOps"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">☁️</div>
+                    <div class="option-title">Cloud / DevOps</div>
+                </div>
+
+                <div class="option"
+                     data-group="interest"
+                     data-value="Design"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">🎨</div>
+                    <div class="option-title">Design</div>
+                </div>
+
+                <div class="option"
+                     data-group="interest"
+                     data-value="Problem Solving"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">🧩</div>
+                    <div class="option-title">Problem Solving</div>
+                </div>
+
+                <div class="option"
+                     data-group="interest"
+                     data-value="Research"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">🔬</div>
+                    <div class="option-title">Research</div>
+                </div>
+
+                <div class="option"
+                     data-group="interest"
+                     data-value="Not Sure Yet"
+                     onclick="selectOption(this)">
+                    <span class="check-mark">✓</span>
+                    <div class="option-icon">🤔</div>
+                    <div class="option-title">Not Sure Yet</div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ACTION -->
+
+        <div class="action-area">
+
+            <div class="helper-text">
+                <i class="bi bi-info-circle"></i>
+                These answers help TaskFlow understand where to begin.
+                Your direction can change anytime.
+            </div>
+
+            <button class="continue-btn"
+                    id="continueBtn"
+                    onclick="continueToOpportunities()"
+                    disabled>
+                Continue
+                <i class="bi bi-arrow-right"></i>
+            </button>
+
+        </div>
+
+
+        <!-- PROFILE PREVIEW -->
+
+        <div class="profile-ready">
+
+            <div class="profile-ready-title">
+                <i class="bi bi-check-circle-fill"></i>
+                Your starting profile
+            </div>
+
+            <div class="profile-ready-text" id="profileText">
+                Select all four options to create your starting profile.
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
-</body>
 
+<script>
+
+    const selections = {
+        year: "",
+        branch: "",
+        goal: "",
+        interest: ""
+    };
+
+
+    function selectOption(element) {
+
+        const group = element.dataset.group;
+        const value = element.dataset.value;
+
+        // Remove selection from same group
+        document.querySelectorAll(
+            '.option[data-group="' + group + '"]'
+        ).forEach(option => {
+            option.classList.remove("selected");
+        });
+
+        // Select clicked option
+        element.classList.add("selected");
+
+        // Save value
+        selections[group] = value;
+
+        updateProfile();
+    }
+
+
+    function updateProfile() {
+
+        const complete =
+            selections.year &&
+            selections.branch &&
+            selections.goal &&
+            selections.interest;
+
+        const button = document.getElementById("continueBtn");
+        const profileText = document.getElementById("profileText");
+
+        if (complete) {
+
+            button.disabled = false;
+
+            profileText.innerHTML =
+                "You are a <strong>" + selections.year +
+                "</strong> student from <strong>" + selections.branch +
+                "</strong>. Your current goal is <strong>" +
+                selections.goal +
+                "</strong> and you are interested in <strong>" +
+                selections.interest +
+                "</strong>.";
+
+        } else {
+
+            button.disabled = true;
+
+            profileText.innerHTML =
+                "Select all four options to create your starting profile.";
+        }
+    }
+
+
+    function continueToOpportunities() {
+
+        if (
+            !selections.year ||
+            !selections.branch ||
+            !selections.goal ||
+            !selections.interest
+        ) {
+            return;
+        }
+
+        // Save the student's discovery profile
+        sessionStorage.setItem(
+            "taskflowDiscoveryProfile",
+            JSON.stringify(selections)
+        );
+
+        // Open Opportunity Explorer
+        window.location.href =
+            "/learning/academy/opportunities";
+    }
+
+</script>
+
+</body>
 </html>

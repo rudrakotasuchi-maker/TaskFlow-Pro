@@ -442,6 +442,12 @@ require(["vs/editor/editor.main"], function () {
         );
 
 
+        const isTemporary = typeof currentFile.id === "string" && isNaN(Number(currentFile.id));
+        const resolvedId = isTemporary ? null : Number(currentFile.id);
+        const resolvedProjectId = (typeof projectId !== "undefined" && projectId !== null && !isNaN(Number(projectId)))
+            ? Number(projectId)
+            : null;
+
         fetch(
             "/workspace/save",
             {
@@ -456,7 +462,7 @@ require(["vs/editor/editor.main"], function () {
                 body: JSON.stringify({
 
                     id:
-                        currentFile.id,
+                        resolvedId,
 
                     fileName:
                         currentFile.fileName,
@@ -467,10 +473,10 @@ require(["vs/editor/editor.main"], function () {
                     language:
                         currentFile.language,
 
-                    project: {
+                    project: resolvedProjectId ? {
                         id:
-                            projectId
-                    }
+                            resolvedProjectId
+                    } : null
 
                 })
 
@@ -505,6 +511,8 @@ require(["vs/editor/editor.main"], function () {
 
                 currentFileId =
                     savedFile.id;
+
+                renderExplorer();
 
 
                 if (showAlert) {
@@ -806,10 +814,12 @@ ${error.message}
         projectId
     );
 
+    const loadProjectUrl = (typeof projectId !== "undefined" && projectId !== null && !isNaN(Number(projectId)))
+        ? ("/workspace/project/" + Number(projectId))
+        : "/workspace/project";
 
     fetch(
-        "/workspace/project/" +
-        projectId
+        loadProjectUrl
     )
 
         .then(function (response) {
@@ -1019,40 +1029,42 @@ ${error.message}
         );
 
 
+        const resolvedProjectId = (typeof projectId !== "undefined" && projectId !== null && !isNaN(Number(projectId)))
+            ? Number(projectId)
+            : null;
+
         fetch(
-        "/workspace/create",
-    {
+            "/workspace/create",
+            {
 
-        method: "POST",
+                method: "POST",
 
-        headers: {
+                headers: {
 
-        "Content-Type":
-        "application/json"
+                    "Content-Type":
+                        "application/json"
 
-    },
+                },
 
-        body: JSON.stringify({
+                body: JSON.stringify({
 
-        fileName:
-        fileName.trim(),
+                    fileName:
+                        fileName.trim(),
 
-        language:
-        language,
+                    language:
+                        language,
 
-        content:
-        "",
+                    content:
+                        "",
 
-        project: {
+                    project: resolvedProjectId ? {
+                        id:
+                            resolvedProjectId
+                    } : null
 
-        id:
-        projectId
+                })
 
-    }
-
-    })
-
-    }
+            }
         )
 
         .then(function (response) {
@@ -1178,43 +1190,47 @@ ${error.message}
         window.monacoEditor.getValue();
 
 
+        const isTemporary = typeof currentFile.id === "string" && isNaN(Number(currentFile.id));
+        const resolvedId = isTemporary ? null : Number(currentFile.id);
+        const resolvedProjectId = (typeof projectId !== "undefined" && projectId !== null && !isNaN(Number(projectId)))
+            ? Number(projectId)
+            : null;
+
         fetch(
-        "/workspace/save",
-    {
+            "/workspace/save",
+            {
 
-        method: "POST",
+                method: "POST",
 
-        headers: {
+                headers: {
 
-        "Content-Type":
-        "application/json"
+                    "Content-Type":
+                        "application/json"
 
-    },
+                },
 
-        body: JSON.stringify({
+                body: JSON.stringify({
 
-        id:
-        currentFile.id,
+                    id:
+                        resolvedId,
 
-        fileName:
-        currentFile.fileName,
+                    fileName:
+                        currentFile.fileName,
 
-        content:
-        currentFile.content,
+                    content:
+                        currentFile.content,
 
-        language:
-        currentFile.language,
+                    language:
+                        currentFile.language,
 
-        project: {
+                    project: resolvedProjectId ? {
+                        id:
+                            resolvedProjectId
+                    } : null
 
-        id:
-        projectId
+                })
 
-    }
-
-    })
-
-    }
+            }
         )
 
         .then(function (response) {

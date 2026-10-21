@@ -88,12 +88,22 @@ public class HomeController {
     public String codingAcademy() {
         return "coding-academy";
     }
+    @GetMapping("/learning/academy/path/software-developer")
+    public String softwareDeveloperPath() {
+        return "software-developer-path";
+    }
+    @GetMapping("/learning/academy/opportunities")
+    public String opportunityExplorer() {
+        return "opportunity-explorer";
+    }
     @GetMapping("/learning/academy/dsa")
     public String dsaRoadmap() {
         return "dsa-roadmap";
     }
+    //
+    //
     @GetMapping("/studio")
     public String studio() {
-        return "studio";
+        return "redirect:/studio/active";
     }
 }

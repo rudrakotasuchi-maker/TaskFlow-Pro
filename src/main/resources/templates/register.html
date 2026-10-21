@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 
 <html lang="en"
@@ -340,6 +339,12 @@
 
         <div class="card-body">
 
+            <!-- ERROR ALERT -->
+            <div th:if="${errorMessage}" class="alert alert-danger d-flex align-items-center mb-3" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                <div th:text="${errorMessage}">Error message</div>
+            </div>
+
             <form th:action="@{/auth/register}"
                   method="post">
 
@@ -360,15 +365,15 @@
                             class="form-select"
                             required>
 
-                        <option value="STUDENT">
+                        <option value="STUDENT" th:selected="${registerRequest?.role == null or registerRequest?.role == 'STUDENT'}">
                             Student
                         </option>
 
-                        <option value="FACULTY">
+                        <option value="FACULTY" th:selected="${registerRequest?.role == 'FACULTY'}">
                             Faculty
                         </option>
 
-                        <option value="ADMIN">
+                        <option value="ADMIN" th:selected="${registerRequest?.role == 'ADMIN'}">
                             Admin
                         </option>
 
@@ -402,6 +407,7 @@
                     <input type="text"
                            class="form-control"
                            name="fullName"
+                           th:value="${registerRequest?.fullName}"
                            placeholder="Enter your full name"
                            required>
 
@@ -429,6 +435,7 @@
                                id="registerNumber"
                                class="form-control"
                                name="registerNumber"
+                               th:value="${registerRequest?.registerNumber}"
                                placeholder="Enter your register number">
 
                     </div>
@@ -450,6 +457,7 @@
                                id="branch"
                                class="form-control"
                                name="branch"
+                               th:value="${registerRequest?.branch}"
                                placeholder="Example: AI & DS">
 
                     </div>
@@ -475,19 +483,19 @@
                                 Select Year
                             </option>
 
-                            <option value="I B.Tech">
+                            <option value="I B.Tech" th:selected="${registerRequest?.year == 'I B.Tech'}">
                                 I B.Tech
                             </option>
 
-                            <option value="II B.Tech">
+                            <option value="II B.Tech" th:selected="${registerRequest?.year == 'II B.Tech'}">
                                 II B.Tech
                             </option>
 
-                            <option value="III B.Tech">
+                            <option value="III B.Tech" th:selected="${registerRequest?.year == 'III B.Tech'}">
                                 III B.Tech
                             </option>
 
-                            <option value="IV B.Tech">
+                            <option value="IV B.Tech" th:selected="${registerRequest?.year == 'IV B.Tech'}">
                                 IV B.Tech
                             </option>
 
@@ -512,6 +520,7 @@
                                id="section"
                                class="form-control"
                                name="section"
+                               th:value="${registerRequest?.section}"
                                placeholder="Example: A">
 
                     </div>
@@ -538,6 +547,7 @@
                                id="department"
                                class="form-control"
                                name="department"
+                               th:value="${registerRequest?.department}"
                                placeholder="Example: AI & DS">
 
                     </div>
@@ -560,6 +570,7 @@
                     <input type="email"
                            class="form-control"
                            name="email"
+                           th:value="${registerRequest?.email}"
                            placeholder="you@example.com"
                            required>
 
@@ -674,14 +685,19 @@
             facultyFields.style.display = "none";
 
             registerNumber.required = true;
+            registerNumber.disabled = false;
 
             branch.required = true;
+            branch.disabled = false;
 
             year.required = true;
+            year.disabled = false;
 
             section.required = true;
+            section.disabled = false;
 
             department.required = false;
+            department.disabled = true;
 
             roleInfo.innerText =
                 "Student account: enter your academic details.";
@@ -695,14 +711,19 @@
             facultyFields.style.display = "block";
 
             registerNumber.required = false;
+            registerNumber.disabled = true;
 
             branch.required = false;
+            branch.disabled = true;
 
             year.required = false;
+            year.disabled = true;
 
             section.required = false;
+            section.disabled = true;
 
             department.required = true;
+            department.disabled = false;
 
             roleInfo.innerText =
                 "Faculty account: enter your department.";
@@ -716,14 +737,19 @@
             facultyFields.style.display = "none";
 
             registerNumber.required = false;
+            registerNumber.disabled = true;
 
             branch.required = false;
+            branch.disabled = true;
 
             year.required = false;
+            year.disabled = true;
 
             section.required = false;
+            section.disabled = true;
 
             department.required = false;
+            department.disabled = true;
 
             roleInfo.innerText =
                 "Admin account: enter your basic account details.";
